@@ -114,7 +114,7 @@ function box2Run() {
   if (tf) return endGame();
   countRound++;
 
-  if (box2Y <= 0) checkDOU = !checkDOU;
+  if (box2Y < 0) checkDOU = !checkDOU;
   else if (box2Y > con.offsetHeight - box2.offsetHeight) checkDOU = !checkDOU;
   else if (box2X > con.offsetWidth - box2.offsetWidth) checkDOU = !checkDOU;
   else if (box2X < 0) checkDOU = !checkDOU;
@@ -132,6 +132,7 @@ function box2Run() {
   box2.style.transform = `translate(${box2X}px, ${box2Y}px) `;
 }
 
+//move the the active player by keyboard
 function move(e) {
   if (!tf) {
     console.log(box1RL, box1TD);
@@ -170,12 +171,12 @@ function reset() {
   box1TD = calMarginHeight() / 2;
   box2X =
     mathRandom(0, 2) === 1
-      ? box1RL + mathRandom(100, 200)
-      : box1RL - mathRandom(100, 200);
+      ? box1RL + mathRandom(100, 150)
+      : box1RL - mathRandom(100, 150);
   box2Y =
     mathRandom(0, 2) === 1
-      ? box1TD + mathRandom(100, 200)
-      : box1TD - mathRandom(100, 200);
+      ? box1TD + mathRandom(100, 150)
+      : box1TD - mathRandom(100, 150);
   itemX = mathRandom(0, 400);
   itemY = mathRandom(0, 400);
   tf = false;
