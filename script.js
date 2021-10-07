@@ -5,7 +5,9 @@ const item = document.querySelector(".item");
 const con = document.querySelector(".container");
 const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
-
+document.addEventListener("touchmove ", function (e) {
+  console.log(e);
+});
 // const posBox = 0;
 let whenChangeDir = 25;
 let inter;
