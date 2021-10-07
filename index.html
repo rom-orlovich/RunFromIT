@@ -1,0 +1,124 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Run From It!</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-stretch: expanded;
+        overflow-y: hidden;
+      }
+      #game_UI {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 0.5fr;
+        justify-items: center;
+        row-gap: 2rem;
+      }
+      .container {
+        height: 30rem;
+        width: 30rem;
+        border: 1px black solid;
+        position: relative;
+      }
+
+      .box {
+        display: flex;
+        height: 3.5rem;
+        width: 3.5rem;
+        position: absolute;
+        background-color: red;
+        /* border-radius: 50%; */
+        top: 0;
+        right: 0;
+        left: 0;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .box1 {
+        background-color: blue;
+      }
+      .box1:hover {
+        opacity: 1;
+      }
+
+      .box-mov {
+        transform: translate(0px, 0px);
+        /* transition: all 1s; */
+      }
+      .btn-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        justify-items: flex-start;
+        align-items: self-start;
+        column-gap: 2rem;
+      }
+      .btn {
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 10%;
+        background-color: rgb(119, 121, 226);
+        cursor: pointer;
+      }
+      .btn:hover {
+        opacity: 0.5;
+        transition: 1s all;
+      }
+
+      .btn-str {
+        /* position: absolute;
+        bottom: 1rem;
+        left: 1rem; */
+      }
+      .btn-reset {
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .item {
+        width: 2rem;
+        height: 2rem;
+        background-color: blueviolet;
+        border-radius: 50%;
+      }
+      h4 {
+        font-size: 0.6rem;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <main id="game_UI">
+      <div class="container">
+        <div class="box box-mov"><h4>Player1</h4></div>
+        <div class="box box1 box-mov hidden"><h4>Run!</h4></div>
+        <div class="item hidden"></div>
+      </div>
+      <div class="btn-container">
+        <button class="btn btn-str">StartGame</button>
+        <button class="btn btn-reset">ResetGame</button>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
