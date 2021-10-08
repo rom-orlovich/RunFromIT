@@ -202,12 +202,12 @@ function move(e) {
 
   itemPlay();
 }
-//joystic play
+//joystic play in smartphone
 function moveJoy(e) {
   e.preventDefault();
 
   const btn = e.target;
-  // console.log(btn.dataset.btn);
+
   if (!btn.classList.contains("btn")) return;
 
   if (!tf) {
@@ -268,14 +268,17 @@ function reset() {
   whenChangeDir = ChangeDir;
   tf = false;
   checkDOU = false;
-  score.textContent = `Score : ${scorePoints}`;
-  stage.textContent = `Stage  ${stageLevel}`;
+  scorePoints = 0;
+  stageLevel = 0;
   box1RL = calMarginWidth() / 2;
   box1TD = calMarginHeight() / 2;
   box2X = reletiveToBox(box1RL);
   box2Y = reletiveToBox(box1TD);
   itemX = reletiveToBox(box1RL);
   itemY = reletiveToBox(box1TD);
+
+  score.textContent = `Score : ${scorePoints}`;
+  stage.textContent = `Stage  ${stageLevel}`;
   box2.style.transform = `translate(${box2X}px, ${box2Y}px`;
   box1.style.transform = `translate(${calMarginWidth() / 2}px, ${
     calMarginHeight() / 2
