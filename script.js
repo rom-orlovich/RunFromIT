@@ -230,6 +230,9 @@ function reset() {
     calMarginHeight() / 2
   }px) `;
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
+  document.removeEventListener("keydown", move);
+  jostick.removeEventListener("click", moveJoy);
+  jostick.classList.add("hidden_btn");
   changeColor();
 }
 
