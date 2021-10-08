@@ -6,6 +6,7 @@ const con = document.querySelector(".container");
 const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
 const body = document.querySelector("body");
+const jostick = document.querySelector(".btn-container_grid");
 document.addEventListener("touchmove ", function (e) {
   console.log(e);
 });
@@ -168,6 +169,145 @@ function move(e) {
           speedBox1)}px) `;
   }
 }
+function moveJoy(e) {
+  // e.preventDefault();
+
+  const btn = e.target;
+  // console.log(btn.dataset.btn);
+  if (!btn.classList.contains("btn")) return;
+
+  if (!tf) {
+    if (btn.classList.contains("btn-right"))
+      if (box1RL < calMarginWidth() * 0.98)
+        box1.style.transform = `translate(${(box1RL +=
+          speedBox1)}px, ${box1TD}px) `;
+
+    if (btn.classList.contains("btn-left"))
+      if (box1RL > 2)
+        box1.style.transform = `translate(${(box1RL -=
+          speedBox1)}px, ${box1TD}px) `;
+
+    if (btn.classList.contains("btn-up"))
+      if (box1TD > 0)
+        box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
+          speedBox1)}px) `;
+
+    if (btn.classList.contains("btn-down"))
+      if (box1TD < calMarginHeight() * 0.98)
+        box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
+          speedBox1)}px) `;
+  }
+}
+//reset the game
+function reset() {
+  box2.classList.add("hidden");
+  // jostick.classList.add("hidden_btn");
+  whenChangeDir = whenChangeDir;
+  box1RL = calMarginWidth() / 2;
+  box1TD = calMarginHeight() / 2;
+  box2X =
+    mathRandom(0, 2) === 1
+      ? box1RL + mathRandom(100, 150)
+      : box1RL - mathRandom(100, 150);
+  box2Y =
+    mathRandom(0, 2) === 1
+      ? box1TD + mathRandom(100, 150)
+      : box1TD - mathRandom(100, 150);
+  itemX = mathRandom(0, 400);
+  itemY = mathRandom(0, 400);
+  tf = false;
+  checkDOU = false;
+  clearInterval(inter);
+  box2.style.transform = `translate(${mathRandom(1, 430)}px, ${mathRandom(
+    1,
+    430
+  )}px`;
+  box1.style.transform = `translate(${calMarginWidth() / 2}px, ${
+    calMarginHeight() / 2
+  }px) `;
+  item.style.transform = `translate(${itemX}px, ${itemY}px) `;
+  changeColor();
+}
+
+//end game
+function endGame() {
+  clearInterval(inter);
+  reset();
+  alert("gameOVER!");
+}
+
+//start the game
+function play() {
+  if (!tf) {
+    reset();
+    box2.classList.remove("hidden");
+    inter = setInterval(box2Run, 10);
+    document.addEventListener("keydown", move);
+    jostick.classList.remove("hidden_btn");
+    jostick.addEventListener("click", moveJoy);
+  }
+}
+
+//game actions
+btnStart.addEventListener("click", play);
+btnReset.addEventListener("click", reset);
+
+// box1.addEventListener("touchmove", touchMove);
+// document.addEventListener("touchmove", touchMove);
+
+//checking:
+//   console.log(
+//     "cube1:",
+//     "right:",
+//     calBorderRight(box1RL, box1),
+//     "left:",
+//     calBorderLeft(box1RL, box1),
+//     "top:",
+//     calBorderTop(box1TD, box1),
+//     "bottom:",
+//     calBorderBot(box1TD, box1),
+//     "cube2:",
+//     "right:",
+//     calBorderRight(box2X, box2),
+//     "left:",
+//     calBorderLeft(box2X, box2),
+//     "top:",
+//     calBorderTop(box2Y, box2),
+//     "bottom:",
+//     calBorderBot(box2Y, box2)
+//   );
+
+//   console.log(
+//     "cube1",
+//     box1RL,
+//     box1TD,
+
+//     "cube2",
+//     box2X,
+//     box2Y
+//   );
+// console.log(
+//   "width:",
+//   con.offsetWidth,
+//   "height:",
+//   con.offsetHeight,
+//   "width:",
+//   body.offsetWidth,
+//   "height:",
+//   body.offsetHeight
+// );
+
+// console.log(
+//   "min-width:",
+//   body.offsetWidth - con.offsetWidth,
+//   "max-width",
+//   con.offsetWidth,
+//   "min-height:",
+//   calBorderBot(con.offsetHeight / 2, con),
+//   "max-height",
+//   body.offsetHeight / 2 - con.offsetHeight / 2
+// );
+
 // let c = 0;
 // function touchMove(e) {
 //   let touch = e.touches[0];
@@ -251,109 +391,3 @@ function move(e) {
 //   //   posD
 //   // );
 // }
-
-//reset the game
-function reset() {
-  box2.classList.add("hidden");
-  whenChangeDir = whenChangeDir;
-  box1RL = calMarginWidth() / 2;
-  box1TD = calMarginHeight() / 2;
-  box2X =
-    mathRandom(0, 2) === 1
-      ? box1RL + mathRandom(100, 150)
-      : box1RL - mathRandom(100, 150);
-  box2Y =
-    mathRandom(0, 2) === 1
-      ? box1TD + mathRandom(100, 150)
-      : box1TD - mathRandom(100, 150);
-  itemX = mathRandom(0, 400);
-  itemY = mathRandom(0, 400);
-  tf = false;
-  checkDOU = false;
-  clearInterval(inter);
-  box2.style.transform = `translate(${mathRandom(1, 430)}px, ${mathRandom(
-    1,
-    430
-  )}px`;
-  box1.style.transform = `translate(${calMarginWidth() / 2}px, ${
-    calMarginHeight() / 2
-  }px) `;
-  item.style.transform = `translate(${itemX}px, ${itemY}px) `;
-  changeColor();
-}
-
-//end game
-function endGame() {
-  clearInterval(inter);
-  reset();
-  alert("gameOVER!");
-}
-
-//start the game
-function play() {
-  if (!tf) {
-    reset();
-    box2.classList.remove("hidden");
-    inter = setInterval(box2Run, 10);
-    document.addEventListener("keydown", move);
-  }
-}
-
-//game actions
-btnStart.addEventListener("click", play);
-btnReset.addEventListener("click", reset);
-box1.addEventListener("touchmove", touchMove);
-// document.addEventListener("touchmove", touchMove);
-
-//checking:
-//   console.log(
-//     "cube1:",
-//     "right:",
-//     calBorderRight(box1RL, box1),
-//     "left:",
-//     calBorderLeft(box1RL, box1),
-//     "top:",
-//     calBorderTop(box1TD, box1),
-//     "bottom:",
-//     calBorderBot(box1TD, box1),
-//     "cube2:",
-//     "right:",
-//     calBorderRight(box2X, box2),
-//     "left:",
-//     calBorderLeft(box2X, box2),
-//     "top:",
-//     calBorderTop(box2Y, box2),
-//     "bottom:",
-//     calBorderBot(box2Y, box2)
-//   );
-
-//   console.log(
-//     "cube1",
-//     box1RL,
-//     box1TD,
-
-//     "cube2",
-//     box2X,
-//     box2Y
-//   );
-// console.log(
-//   "width:",
-//   con.offsetWidth,
-//   "height:",
-//   con.offsetHeight,
-//   "width:",
-//   body.offsetWidth,
-//   "height:",
-//   body.offsetHeight
-// );
-
-// console.log(
-//   "min-width:",
-//   body.offsetWidth - con.offsetWidth,
-//   "max-width",
-//   con.offsetWidth,
-//   "min-height:",
-//   calBorderBot(con.offsetHeight / 2, con),
-//   "max-height",
-//   body.offsetHeight / 2 - con.offsetHeight / 2
-// );
