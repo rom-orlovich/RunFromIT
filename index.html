@@ -16,6 +16,9 @@
         box-sizing: border-box;
       }
 
+      .score {
+      }
+
       body {
         font-family: "Poppins", sans-serif;
         font-weight: 300;
@@ -30,16 +33,25 @@
         top: 8%;
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 0.1fr 2fr 0.1fr;
+        grid-template-rows: 0.1fr 0.1fr 2fr 0.1fr;
         justify-items: center;
-        row-gap: 3rem;
+        row-gap: 1rem;
       }
+
+      .status {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
       .container {
         height: 23rem;
         width: 23rem;
         border: 1px black solid;
         position: relative;
-        grid-row: 2;
       }
 
       .box {
@@ -48,7 +60,6 @@
         width: 3rem;
         position: absolute;
         background-color: red;
-
         top: 0;
         right: 0;
         left: 0;
@@ -58,46 +69,42 @@
         justify-content: center;
       }
 
-      .box1:hover {
-        opacity: 1;
-      }
-
       .box-mov {
         transform: translate(0px, 0px);
-        /* transition: all 1s; */
       }
-
-      .btn {
-        margin-top: 1rem;
-        padding: 0.8rem 1.5rem;
-        border: none;
-        border-radius: 10%;
-        background-color: rgb(119, 121, 226);
-        cursor: pointer;
-      }
-      .btn:hover {
-        opacity: 0.9;
-        transition: 1s all;
+      .item {
+        width: 2rem;
+        height: 2rem;
+        background-color: blueviolet;
+        border-radius: 50%;
       }
 
       .btn-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
 
-        justify-items: flex-start;
+        justify-items: center;
         align-items: self-start;
         column-gap: 2rem;
       }
 
       .btn-container_grid {
         position: absolute;
-        top: 91%;
+        top: 95%;
         left: 20%;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
         justify-items: center;
         transition: 1s opacity;
+      }
+
+      .btn {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 10%;
+        background-color: rgb(119, 121, 226);
+        cursor: pointer;
       }
 
       .btn-up {
@@ -124,23 +131,21 @@
         display: none;
       }
 
-      .item {
-        width: 2rem;
-        height: 2rem;
-        background-color: blueviolet;
-        border-radius: 50%;
-      }
-      h4 {
-        font-size: 0.6rem;
-      }
       .hidden_btn {
         opacity: 0;
+      }
+      h4 {
+        font-size: 0.8rem;
       }
     </style>
   </head>
 
   <body>
     <main id="game_UI">
+      <div class="status">
+        <div class="score">Score:0</div>
+        <div class="stage">Stage 1</div>
+      </div>
       <div class="btn-container">
         <button class="btn btn-str">StartGame</button>
         <button class="btn btn-reset">ResetGame</button>
@@ -149,14 +154,14 @@
       <div class="container">
         <div class="box box-mov"><h4>Player1</h4></div>
         <div class="box box1 box-mov hidden"><h4>Run!</h4></div>
-        <div class="item hidden"></div>
+        <div class="item"></div>
       </div>
-      <!-- hidden_btn -->
+
       <div class="btn-container_grid hidden_btn">
-        <button class="btn btn-up" data-btn="up">UP</button>
-        <button class="btn btn-right" data-btn="right">Right</button>
-        <button class="btn btn-down" data-btn="down">Down</button>
-        <button class="btn btn-left" data-btn="left">Left</button>
+        <button class="btn btn-up">UP</button>
+        <button class="btn btn-right">Right</button>
+        <button class="btn btn-down">Down</button>
+        <button class="btn btn-left">Left</button>
       </div>
     </main>
     <script src="script.js"></script>

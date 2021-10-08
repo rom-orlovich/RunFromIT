@@ -1,17 +1,30 @@
 "use strict";
+// dom elements
 const box1 = document.querySelector(".box");
 const box2 = document.querySelector(".box1");
 const item = document.querySelector(".item");
+const body = document.querySelector("body");
 const con = document.querySelector(".container");
+const score = document.querySelector(".score");
+const stage = document.querySelector(".stage");
 const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
-const body = document.querySelector("body");
 const jostick = document.querySelector(".btn-container_grid");
-document.addEventListener("touchmove ", function (e) {
-  console.log(e);
-});
-// const posBox = 0;
-let whenChangeDir = 25;
+
+//variables
+
+const box1Speed = 10;
+const box2Speed = 1;
+const box1SpeedMobile = 20;
+const interTimeChange = 20;
+const ChangeDir = 25;
+let scorePoints = 0;
+let stageLevel = 1;
+let speedBox1;
+let speedBox2;
+let speedBoxM;
+let interTime;
+let whenChangeDir;
 let inter;
 let box2X;
 let box2Y;
@@ -19,19 +32,13 @@ let box1RL;
 let box1TD;
 let itemX;
 let itemY;
-
-let speedBox1 = 10;
-let speedBoxM = 20;
-let speedBox2 = 1;
-let interTime = 85;
 let tf = false;
 let checkDOU = false;
 let numQ;
-
 let countRound = 0;
-reset();
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-console.log(mathRandom(0, 1));
+reset();
 
 //change diraction
 function changeDir(n) {
@@ -55,6 +62,15 @@ function calBorderRight(pos, box) {
   return pos + box.offsetWidth / 2;
 }
 //cal margin width and height  of the box reletive to the container
+
+function calMarginWidth(box) {
+  return con.offsetWidth - box.offsetWidth;
+}
+
+function calMarginHeight(box) {
+  return con.offsetHeight - box.offsetHeight;
+}
+
 function calMarginWidth() {
   return con.offsetWidth - box1.offsetWidth;
 }
@@ -63,9 +79,22 @@ function calMarginHeight() {
   return con.offsetHeight - box1.offsetHeight;
 }
 
+//remove addEvent
+
+function removeAddEvent() {
+  document.removeEventListener("keydown", move);
+  jostick.removeEventListener("click", moveJoy);
+}
+
 //random a number
 function mathRandom(min, max) {
   return Math.trunc(min + Math.random() * (max - min));
+}
+// random the reletive pos to box
+function reletiveToBox(pos) {
+  return mathRandom(0, 2) === 1
+    ? pos + mathRandom(100, 150)
+    : pos - mathRandom(100, 150);
 }
 
 //change color
@@ -85,8 +114,6 @@ function changeColor() {
     255
   )},${mathRandom(0, 255)},0.${mathRandom(6, 9)})`;
 }
-
-//play the box2 movment
 
 //check the movments
 function check(X1, Y1, X2, Y2) {
@@ -124,7 +151,7 @@ function check(X1, Y1, X2, Y2) {
     return true;
   else return false;
 }
-//box 2 run and move;
+//play the box2 movment
 function box2Run() {
   tf = check(box1RL, box1TD, box2X, box2Y);
   if (tf) return endGame();
@@ -172,7 +199,10 @@ function move(e) {
         box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
           speedBox1)}px) `;
   }
+
+  itemPlay();
 }
+//joystic play
 function moveJoy(e) {
   e.preventDefault();
 
@@ -201,46 +231,68 @@ function moveJoy(e) {
         box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
           speedBoxM)}px) `;
   }
+  itemPlay();
 }
+
+//item-playing
+function itemPlay() {
+  if (check(box1RL, box1TD, itemX, itemY)) {
+    itemChangePos();
+    scorePoints++;
+    score.textContent = `Score : ${scorePoints}`;
+    changeStage();
+    console.log("score:", scorePoints, "stage:", stageLevel);
+  }
+}
+function itemChangePos() {
+  itemX = reletiveToBox(calMarginWidth() / 2);
+  itemY = reletiveToBox(calMarginHeight() / 2);
+  item.style.transform = `translate(${itemX}px, ${itemY}px) `;
+}
+
+function changeStage() {
+  if (scorePoints % 10 === 0) {
+    stageLevel++;
+    stage.textContent = `Stage  ${stageLevel}`;
+
+    speedBox2 += 1;
+  }
+}
+
 //reset the game
 function reset() {
-  box2.classList.add("hidden");
-  // jostick.classList.add("hidden_btn");
-  whenChangeDir = whenChangeDir;
-  box1RL = calMarginWidth() / 2;
-  box1TD = calMarginHeight() / 2;
-  box2X =
-    mathRandom(0, 2) === 1
-      ? box1RL + mathRandom(100, 150)
-      : box1RL - mathRandom(100, 150);
-  box2Y =
-    mathRandom(0, 2) === 1
-      ? box1TD + mathRandom(100, 150)
-      : box1TD - mathRandom(100, 150);
-  itemX = mathRandom(0, 400);
-  itemY = mathRandom(0, 400);
+  speedBox1 = box1Speed;
+  speedBox2 = box2Speed;
+  speedBoxM = box1SpeedMobile;
+  interTime = interTimeChange;
+  whenChangeDir = ChangeDir;
   tf = false;
   checkDOU = false;
-  clearInterval(inter);
-  box2.style.transform = `translate(${mathRandom(1, 430)}px, ${mathRandom(
-    1,
-    430
-  )}px`;
+  score.textContent = `Score : ${scorePoints}`;
+  stage.textContent = `Stage  ${stageLevel}`;
+  box1RL = calMarginWidth() / 2;
+  box1TD = calMarginHeight() / 2;
+  box2X = reletiveToBox(box1RL);
+  box2Y = reletiveToBox(box1TD);
+  itemX = reletiveToBox(box1RL);
+  itemY = reletiveToBox(box1TD);
+  box2.style.transform = `translate(${box2X}px, ${box2Y}px`;
   box1.style.transform = `translate(${calMarginWidth() / 2}px, ${
     calMarginHeight() / 2
   }px) `;
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
-  document.removeEventListener("keydown", move);
-  jostick.removeEventListener("click", moveJoy);
+
   jostick.classList.add("hidden_btn");
+  box2.classList.add("hidden");
+  clearInterval(inter);
+  removeAddEvent();
   changeColor();
 }
 
 //end game
 function endGame() {
   clearInterval(inter);
-  document.removeEventListener("keydown", move);
-  jostick.removeEventListener("click", moveJoy);
+  removeAddEvent();
   reset();
   alert("gameOVER!");
 }
@@ -250,7 +302,7 @@ function play() {
   if (!tf) {
     reset();
     box2.classList.remove("hidden");
-    inter = setInterval(box2Run, 10);
+    inter = setInterval(box2Run, interTime);
     document.addEventListener("keydown", move);
     jostick.addEventListener("click", moveJoy);
     if (window.screen.width < 500) jostick.classList.remove("hidden_btn");
@@ -260,10 +312,6 @@ function play() {
 //game actions
 btnStart.addEventListener("click", play);
 btnReset.addEventListener("click", reset);
-
-console.log(window.screen.width);
-// box1.addEventListener("touchmove", touchMove);
-// document.addEventListener("touchmove", touchMove);
 
 //checking:
 //   console.log(
@@ -317,7 +365,9 @@ console.log(window.screen.width);
 //   "max-height",
 //   body.offsetHeight / 2 - con.offsetHeight / 2
 // );
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// box1.addEventListener("touchmove", touchMove);
+// document.addEventListener("touchmove", touchMove);
 // let c = 0;
 // function touchMove(e) {
 //   let touch = e.touches[0];
