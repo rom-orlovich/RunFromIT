@@ -23,11 +23,11 @@
         display: flex;
         align-items: flex-start;
         justify-content: center;
-        overflow-x: hidden;
+        overflow: hidden;
       }
       #game_UI {
         position: relative;
-        top: 15%;
+        top: 8%;
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 0.1fr 2fr 0.1fr;
@@ -44,8 +44,8 @@
 
       .box {
         display: flex;
-        height: 3.5rem;
-        width: 3.5rem;
+        height: 3rem;
+        width: 3rem;
         position: absolute;
         background-color: red;
 
@@ -152,7 +152,7 @@
         <div class="item hidden"></div>
       </div>
       <!-- hidden_btn -->
-      <div class="btn-container_grid">
+      <div class="btn-container_grid hidden_btn">
         <button class="btn btn-up" data-btn="up">UP</button>
         <button class="btn btn-right" data-btn="right">Right</button>
         <button class="btn btn-down" data-btn="down">Down</button>

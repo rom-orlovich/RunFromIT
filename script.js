@@ -19,15 +19,18 @@ let box1RL;
 let box1TD;
 let itemX;
 let itemY;
+
 let speedBox1 = 10;
-let speedBox2 = 2;
-let interTime = 100;
+let speedBoxM = 20;
+let speedBox2 = 1;
+let interTime = 85;
 let tf = false;
 let checkDOU = false;
 let numQ;
 
 let countRound = 0;
 reset();
+
 console.log(mathRandom(0, 1));
 
 //change diraction
@@ -147,30 +150,31 @@ function box2Run() {
 
 //move the the active player by keyboard
 function move(e) {
+  e.preventDefault();
   if (!tf) {
     if (e.key === "ArrowRight")
-      if (box1RL < calMarginWidth() * 0.98)
+      if (box1RL < calMarginWidth() - speedBox1)
         box1.style.transform = `translate(${(box1RL +=
           speedBox1)}px, ${box1TD}px) `;
 
     if (e.key === "ArrowLeft")
-      if (box1RL > 2)
+      if (box1RL > speedBox1)
         box1.style.transform = `translate(${(box1RL -=
           speedBox1)}px, ${box1TD}px) `;
 
     if (e.key === "ArrowUp")
-      if (box1TD > 0)
+      if (box1TD > speedBox1)
         box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
           speedBox1)}px) `;
 
     if (e.key === "ArrowDown")
-      if (box1TD < calMarginHeight() * 0.98)
+      if (box1TD < calMarginHeight() - speedBox1)
         box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
           speedBox1)}px) `;
   }
 }
 function moveJoy(e) {
-  // e.preventDefault();
+  e.preventDefault();
 
   const btn = e.target;
   // console.log(btn.dataset.btn);
@@ -178,24 +182,24 @@ function moveJoy(e) {
 
   if (!tf) {
     if (btn.classList.contains("btn-right"))
-      if (box1RL < calMarginWidth() * 0.98)
+      if (box1RL < calMarginWidth() - speedBoxM)
         box1.style.transform = `translate(${(box1RL +=
-          speedBox1)}px, ${box1TD}px) `;
+          speedBoxM)}px, ${box1TD}px) `;
 
     if (btn.classList.contains("btn-left"))
-      if (box1RL > 2)
+      if (box1RL > speedBoxM)
         box1.style.transform = `translate(${(box1RL -=
-          speedBox1)}px, ${box1TD}px) `;
+          speedBoxM)}px, ${box1TD}px) `;
 
     if (btn.classList.contains("btn-up"))
-      if (box1TD > 0)
+      if (box1TD > speedBoxM)
         box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
-          speedBox1)}px) `;
+          speedBoxM)}px) `;
 
     if (btn.classList.contains("btn-down"))
-      if (box1TD < calMarginHeight() * 0.98)
+      if (box1TD < calMarginHeight() - speedBoxM)
         box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
-          speedBox1)}px) `;
+          speedBoxM)}px) `;
   }
 }
 //reset the game
@@ -232,6 +236,8 @@ function reset() {
 //end game
 function endGame() {
   clearInterval(inter);
+  document.removeEventListener("keydown", move);
+  jostick.removeEventListener("click", moveJoy);
   reset();
   alert("gameOVER!");
 }
@@ -243,8 +249,8 @@ function play() {
     box2.classList.remove("hidden");
     inter = setInterval(box2Run, 10);
     document.addEventListener("keydown", move);
-    jostick.classList.remove("hidden_btn");
     jostick.addEventListener("click", moveJoy);
+    if (window.screen.width < 500) jostick.classList.remove("hidden_btn");
   }
 }
 
@@ -252,6 +258,7 @@ function play() {
 btnStart.addEventListener("click", play);
 btnReset.addEventListener("click", reset);
 
+console.log(window.screen.width);
 // box1.addEventListener("touchmove", touchMove);
 // document.addEventListener("touchmove", touchMove);
 
