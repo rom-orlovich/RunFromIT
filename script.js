@@ -17,7 +17,7 @@ const box1Speed = 10;
 const box2Speed = 1;
 const box1SpeedMobile = 20;
 const interTimeChange = 20;
-const ChangeDir = 25;
+const ChangeDir = 20;
 let scorePoints = 0;
 let stageLevel = 1;
 let speedBox1;
@@ -109,10 +109,10 @@ function changeColor() {
     255
   )},${mathRandom(0, 255)},0.${mathRandom(6, 9)})`;
 
-  item.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
+  item.style.backgroundColor = `rgba(${mathRandom(0, 200)},${mathRandom(
     0,
-    255
-  )},${mathRandom(0, 255)},0.${mathRandom(6, 9)})`;
+    200
+  )},${mathRandom(0, 200)},0.${mathRandom(6, 9)})`;
 }
 
 //check the movments
@@ -158,8 +158,10 @@ function box2Run() {
   countRound++;
 
   if (box2Y < 0) checkDOU = !checkDOU;
-  else if (box2Y > con.offsetHeight - box2.offsetHeight) checkDOU = !checkDOU;
-  else if (box2X > con.offsetWidth - box2.offsetWidth) checkDOU = !checkDOU;
+  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2)
+    checkDOU = !checkDOU;
+  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2)
+    checkDOU = !checkDOU;
   else if (box2X < 0) checkDOU = !checkDOU;
 
   if (countRound === whenChangeDir) {
