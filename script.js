@@ -17,7 +17,7 @@ const box1Speed = 10;
 const box2Speed = 1;
 const box1SpeedMobile = 20;
 const interTimeChange = 20;
-const ChangeDir = 20;
+const ChangeDir = 100;
 let scorePoints = 0;
 let stageLevel = 1;
 let speedBox1;
@@ -255,9 +255,15 @@ function itemChangePos() {
 function changeStage() {
   if (scorePoints % 10 === 0) {
     stageLevel++;
-    stage.textContent = `Stage  ${stageLevel}`;
-
     speedBox2 += 1;
+    stage.textContent = `Stage  ${stageLevel}`;
+  }
+  if (stageLevel % 50 === 0) {
+    body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
+      0,
+      255
+    )},${mathRandom(0, 255)},0.${mathRandom(6, 9)})`;
+    changeColor;
   }
 }
 
@@ -271,7 +277,7 @@ function reset() {
   tf = false;
   checkDOU = false;
   scorePoints = 0;
-  stageLevel = 0;
+  stageLevel = 1;
   box1RL = calMarginWidth() / 2;
   box1TD = calMarginHeight() / 2;
   box2X = reletiveToBox(box1RL);
@@ -289,6 +295,7 @@ function reset() {
 
   jostick.classList.add("hidden_btn");
   box2.classList.add("hidden");
+  item.classList.add("hidden");
   clearInterval(inter);
   removeAddEvent();
   changeColor();
@@ -307,6 +314,7 @@ function play() {
   if (!tf) {
     reset();
     box2.classList.remove("hidden");
+    item.classList.remove("hidden");
     inter = setInterval(box2Run, interTime);
     document.addEventListener("keydown", move);
     jostick.addEventListener("click", moveJoy);
