@@ -168,89 +168,89 @@ function move(e) {
           speedBox1)}px) `;
   }
 }
-let c = 0;
-function touchMove(e) {
-  let touch = e.touches[0];
-  console.log(e.touches[0]);
-  // let touch = e;
-  let touchX = Math.trunc(touch.clientX);
-  let touchY = Math.trunc(touch.clientY);
-  // let posL = box1RL;
-  // let posR = 0;
-  // let posU = box1TD;
-  // let posD = 0;
-  let posRLB = box1RL;
+// let c = 0;
+// function touchMove(e) {
+//   let touch = e.touches[0];
+//   console.log(e.touches[0]);
+//   // let touch = e;
+//   let touchX = Math.trunc(touch.clientX);
+//   let touchY = Math.trunc(touch.clientY);
+//   // let posL = box1RL;
+//   // let posR = 0;
+//   // let posU = box1TD;
+//   // let posD = 0;
+//   let posRLB = box1RL;
 
-  let posUDB = box1TD;
-  console.log(`move: ${c++}`);
-  console.log(" ");
-  console.log("touchX:", touchX, "touchY:", touchY);
-  console.log(" ");
-  console.log("box1:", "box1RL:", box1RL, "box1TD", box1TD);
+//   let posUDB = box1TD;
+//   console.log(`move: ${c++}`);
+//   console.log(" ");
+//   console.log("touchX:", touchX, "touchY:", touchY);
+//   console.log(" ");
+//   console.log("box1:", "box1RL:", box1RL, "box1TD", box1TD);
 
-  console.log(" ");
-  // console.log(
-  //   "currentPos",
-  //   "posL",
-  //   posL,
-  //   "posR",
-  //   posR,
-  //   "posU",
-  //   posU,
-  //   "posD",
-  //   posD
-  // );
+//   console.log(" ");
+//   // console.log(
+//   //   "currentPos",
+//   //   "posL",
+//   //   posL,
+//   //   "posR",
+//   //   posR,
+//   //   "posU",
+//   //   posU,
+//   //   "posD",
+//   //   posD
+//   // );
 
-  // move Left
-  if (touchX < posRLB)
-    if (box1RL > 2) {
-      // posL = touchX;
-      posRLB = touchX;
+//   // move Left
+//   if (touchX < posRLB)
+//     if (box1RL > 2) {
+//       // posL = touchX;
+//       posRLB = touchX;
 
-      box1.style.transform = `translate(${(box1RL -=
-        speedBox1)}px, ${box1TD}px) `;
-    }
+//       box1.style.transform = `translate(${(box1RL -=
+//         speedBox1)}px, ${box1TD}px) `;
+//     }
 
-  // move right
+//   // move right
 
-  if (touchX > posRLB)
-    if (box1RL < calMarginWidth() * 0.98) {
-      // posR = touchX;
-      posRLB = touchX;
-      box1.style.transform = `translate(${(box1RL +=
-        speedBox1)}px, ${box1TD}px) `;
-    }
+//   if (touchX > posRLB)
+//     if (box1RL < calMarginWidth() * 0.98) {
+//       // posR = touchX;
+//       posRLB = touchX;
+//       box1.style.transform = `translate(${(box1RL +=
+//         speedBox1)}px, ${box1TD}px) `;
+//     }
 
-  //moveUp
-  if (touchY < posUDB)
-    if (box1TD > 0) {
-      // posU = touchY;
-      posUDB = touchY;
-      box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
-        speedBox1)}px) `;
-    }
+//   //moveUp
+//   if (touchY < posUDB)
+//     if (box1TD > 0) {
+//       // posU = touchY;
+//       posUDB = touchY;
+//       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
+//         speedBox1)}px) `;
+//     }
 
-  // move down
-  if (touchY > posUDB)
-    if (box1TD < calMarginHeight() * 0.98) {
-      // posD = touchY;
-      posUDB = touchY;
-      box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
-        speedBox1)}px) `;
-    }
-  console.log(" ");
-  // console.log(
-  //   "currentPos",
-  //   "posL",
-  //   posL,
-  //   "posR",
-  //   posR,
-  //   "posU",
-  //   posU,
-  //   "posD",
-  //   posD
-  // );
-}
+//   // move down
+//   if (touchY > posUDB)
+//     if (box1TD < calMarginHeight() * 0.98) {
+//       // posD = touchY;
+//       posUDB = touchY;
+//       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
+//         speedBox1)}px) `;
+//     }
+//   console.log(" ");
+//   // console.log(
+//   //   "currentPos",
+//   //   "posL",
+//   //   posL,
+//   //   "posR",
+//   //   posR,
+//   //   "posU",
+//   //   posU,
+//   //   "posD",
+//   //   posD
+//   // );
+// }
 
 //reset the game
 function reset() {
