@@ -16,9 +16,6 @@
         box-sizing: border-box;
       }
 
-      .score {
-      }
-
       body {
         font-family: "Poppins", sans-serif;
         font-weight: 300;
@@ -136,6 +133,27 @@
       }
       h4 {
         font-size: 0.8rem;
+      }
+      @media screen and (max-width: 500px) {
+        .container {
+          height: 22.5rem;
+          width: 22.5rem;
+          border: 1px black solid;
+          position: relative;
+        }
+        .box {
+          height: 2.5rem;
+          width: 2.5rem;
+        }
+
+        .item {
+          width: 1rem;
+          height: 1rem;
+        }
+
+        h4 {
+          font-size: 0.5rem;
+        }
       }
     </style>
   </head>
