@@ -9,6 +9,7 @@ const score = document.querySelector(".score");
 const stage = document.querySelector(".stage");
 const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
+const btnPasue = document.querySelector(".btn-pause");
 const jostick = document.querySelector(".btn-container_grid");
 
 //variables
@@ -18,24 +19,37 @@ const box2Speed = 1;
 const box1SpeedMobile = 20;
 const interTimeChange = 20;
 const ChangeDir = 100;
+const bounusTimeStart = 1000;
+const bounusTimeEnd = 20000;
+const inters = null;
+const screenWidth = 1200;
+const bonusTimeAding = 7;
+// const Timeout = setTimeout(bonus, bounusTimeStart);
 let scorePoints = 0;
 let stageLevel = 1;
+let pointAdd = 1;
+let countRound = 0;
+let counterStage = 1;
+let countBounsTime = 0;
 let speedBox1;
 let speedBox2;
 let speedBoxM;
 let interTime;
 let whenChangeDir;
-let inter;
+let interBox2;
 let box2X;
 let box2Y;
 let box1RL;
 let box1TD;
 let itemX;
 let itemY;
-let tf = false;
+let tfEndGame = false;
+let tfPauseGame = false;
 let checkDOU = false;
+let bonusInvisiable = false;
+let bounsEx = false;
 let numQ;
-let countRound = 0;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 reset();
@@ -86,6 +100,12 @@ function removeAddEvent() {
   jostick.removeEventListener("click", moveJoy);
 }
 
+//reset the Bounus Terms
+function resetBounusTerms() {
+  countBounsTime = 0;
+  bounsEx = true;
+}
+
 //random a number
 function mathRandom(min, max) {
   return Math.trunc(min + Math.random() * (max - min));
@@ -99,15 +119,15 @@ function reletiveToBox(pos) {
 
 //change color
 function changeColor() {
-  box1.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
+  box1.style.backgroundColor = `rgba(${mathRandom(0, 125)},${mathRandom(
     0,
-    255
-  )},${mathRandom(0, 255)},0.${mathRandom(6, 9)})`;
+    125
+  )},${mathRandom(0, 125)},0.${mathRandom(6, 9)})`;
 
-  box2.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
-    0,
-    255
-  )},${mathRandom(0, 255)},0.${mathRandom(6, 9)})`;
+  box2.style.backgroundColor = `rgba(${mathRandom(125, 220)},${mathRandom(
+    125,
+    220
+  )},${mathRandom(125, 220)},0.${mathRandom(6, 9)})`;
 
   item.style.backgroundColor = `rgba(${mathRandom(0, 200)},${mathRandom(
     0,
@@ -151,10 +171,13 @@ function check(X1, Y1, X2, Y2) {
     return true;
   else return false;
 }
+
 //play the box2 movment
 function box2Run() {
-  tf = check(box1RL, box1TD, box2X, box2Y);
-  if (tf) return endGame();
+  if (tfPauseGame) return;
+  if (!bonusInvisiable) tfEndGame = check(box1RL, box1TD, box2X, box2Y);
+
+  if (tfEndGame) return endGame();
   countRound++;
 
   if (box2Y < 0) checkDOU = !checkDOU;
@@ -180,83 +203,121 @@ function box2Run() {
 //move the the active player by keyboard
 function move(e) {
   e.preventDefault();
-  if (!tf) {
-    if (e.key === "ArrowRight")
-      if (box1RL < calMarginWidth() - speedBox1)
-        box1.style.transform = `translate(${(box1RL +=
-          speedBox1)}px, ${box1TD}px) `;
+  if (tfPauseGame) return;
+  if (tfEndGame) return;
 
-    if (e.key === "ArrowLeft")
-      if (box1RL > speedBox1)
-        box1.style.transform = `translate(${(box1RL -=
-          speedBox1)}px, ${box1TD}px) `;
+  if (e.key === "ArrowRight")
+    if (box1RL < calMarginWidth() - speedBox1)
+      box1.style.transform = `translate(${(box1RL +=
+        speedBox1)}px, ${box1TD}px) `;
 
-    if (e.key === "ArrowUp")
-      if (box1TD > speedBox1)
-        box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
-          speedBox1)}px) `;
+  if (e.key === "ArrowLeft")
+    if (box1RL > speedBox1)
+      box1.style.transform = `translate(${(box1RL -=
+        speedBox1)}px, ${box1TD}px) `;
 
-    if (e.key === "ArrowDown")
-      if (box1TD < calMarginHeight() - speedBox1)
-        box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
-          speedBox1)}px) `;
-  }
+  if (e.key === "ArrowUp")
+    if (box1TD > speedBox1)
+      box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
+        speedBox1)}px) `;
+
+  if (e.key === "ArrowDown")
+    if (box1TD < calMarginHeight() - speedBox1)
+      box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
+        speedBox1)}px) `;
 
   itemPlay();
 }
 //joystic play in smartphone
 function moveJoy(e) {
   e.preventDefault();
-
   const btn = e.target;
-
+  if (tfPauseGame) return;
+  if (tfEndGame) return;
   if (!btn.classList.contains("btn")) return;
+  if (btn.classList.contains("btn-right"))
+    if (box1RL < calMarginWidth() - speedBoxM * 1.1)
+      box1.style.transform = `translate(${(box1RL +=
+        speedBoxM)}px, ${box1TD}px) `;
 
-  if (!tf) {
-    if (btn.classList.contains("btn-right"))
-      if (box1RL < calMarginWidth() - speedBoxM)
-        box1.style.transform = `translate(${(box1RL +=
-          speedBoxM)}px, ${box1TD}px) `;
+  if (btn.classList.contains("btn-left"))
+    if (box1RL > speedBoxM)
+      box1.style.transform = `translate(${(box1RL -=
+        speedBoxM)}px, ${box1TD}px) `;
 
-    if (btn.classList.contains("btn-left"))
-      if (box1RL > speedBoxM)
-        box1.style.transform = `translate(${(box1RL -=
-          speedBoxM)}px, ${box1TD}px) `;
+  if (btn.classList.contains("btn-up"))
+    if (box1TD > speedBoxM)
+      box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
+        speedBoxM)}px) `;
 
-    if (btn.classList.contains("btn-up"))
-      if (box1TD > speedBoxM)
-        box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
-          speedBoxM)}px) `;
+  if (btn.classList.contains("btn-down"))
+    if (box1TD < calMarginHeight() - speedBoxM * 1.1)
+      box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
+        speedBoxM)}px) `;
 
-    if (btn.classList.contains("btn-down"))
-      if (box1TD < calMarginHeight() - speedBoxM)
-        box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
-          speedBoxM)}px) `;
-  }
   itemPlay();
 }
 
-//item-playing
-function itemPlay() {
-  if (check(box1RL, box1TD, itemX, itemY)) {
-    itemChangePos();
-    scorePoints++;
-    score.textContent = `Score : ${scorePoints}`;
-    changeStage();
-    console.log("score:", scorePoints, "stage:", stageLevel);
-  }
-}
+//change the pos of item randomaly
 function itemChangePos() {
   itemX = reletiveToBox(calMarginWidth() / 2);
   itemY = reletiveToBox(calMarginHeight() / 2);
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
 }
 
+//item-playing
+function itemPlay() {
+  if (check(box1RL, box1TD, itemX, itemY)) {
+    itemChangePos();
+    scorePoints += pointAdd;
+    counterStage += pointAdd;
+    score.textContent = `Score : ${scorePoints}`;
+    changeStage();
+    countBounsTime++;
+  }
+
+  if (!bounsEx && countBounsTime > 1 && countBounsTime % bonusTimeAding === 0) {
+    bonus();
+  }
+}
+
+// give the player bouns if he eat the item by random a number 1-2(Invisiable or number of points )
+function bonus() {
+  item.classList.add("item_bonus");
+  const randomBounus = mathRandom(1, 3);
+  console.log("randomBounus:", randomBounus);
+  if (randomBounus === 1) {
+    pointAdd = stageLevel + 1;
+    item.textContent = `+${pointAdd}P`;
+    resetBounusTerms();
+  } else if (randomBounus === 2) {
+    pointAdd = 1;
+    item.textContent = `💫: O`;
+    box1.style.opacity = "0.7";
+    resetBounusTerms();
+    bonusInvisiable = true;
+  }
+
+  //timeout clear and finish
+  const timeOut = setTimeout(function () {
+    countBounsTime = 0;
+    pointAdd = 1;
+    bonusInvisiable = false;
+    bounsEx = !bounsEx;
+    item.classList.remove("item_bonus");
+    item.textContent = `+${1}P`;
+    box1.style.opacity = "1";
+    clearTimeout(timeOut);
+  }, bounusTimeEnd);
+}
+
+//change the stage of the player after 10 points
 function changeStage() {
-  if (scorePoints % 10 === 0) {
+  if (counterStage >= 10) {
     stageLevel++;
     speedBox2 += 1;
     stage.textContent = `Stage  ${stageLevel}`;
+    counterStage = 0;
   }
   if (stageLevel % 50 === 0) {
     body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
@@ -267,38 +328,16 @@ function changeStage() {
   }
 }
 
-//reset the game
-function reset() {
-  speedBox1 = box1Speed;
-  speedBox2 = box2Speed;
-  speedBoxM = box1SpeedMobile;
-  interTime = interTimeChange;
-  whenChangeDir = ChangeDir;
-  tf = false;
-  checkDOU = false;
-  scorePoints = 0;
-  stageLevel = 1;
-  box1RL = calMarginWidth() / 2;
-  box1TD = calMarginHeight() / 2;
-  box2X = reletiveToBox(box1RL);
-  box2Y = reletiveToBox(box1TD);
-  itemX = reletiveToBox(box1RL);
-  itemY = reletiveToBox(box1TD);
+// pause key function
+function pauseKey(e) {
+  e.preventDefault();
+  if (e.key === "s" || e.key === "S") tfPauseGame = !tfPauseGame;
+}
 
-  score.textContent = `Score : ${scorePoints}`;
-  stage.textContent = `Stage  ${stageLevel}`;
-  box2.style.transform = `translate(${box2X}px, ${box2Y}px`;
-  box1.style.transform = `translate(${calMarginWidth() / 2}px, ${
-    calMarginHeight() / 2
-  }px) `;
-  item.style.transform = `translate(${itemX}px, ${itemY}px) `;
-
-  jostick.classList.add("hidden_btn");
-  box2.classList.add("hidden");
-  item.classList.add("hidden");
-  clearInterval(inter);
-  removeAddEvent();
-  changeColor();
+// pause button function
+function pauseButton(e) {
+  e.preventDefault();
+  if (e.target.classList.contains("btn-pause")) tfPauseGame = !tfPauseGame;
 }
 
 //end game
@@ -311,21 +350,62 @@ function endGame() {
 
 //start the game
 function play() {
-  if (!tf) {
-    reset();
-    box2.classList.remove("hidden");
-    item.classList.remove("hidden");
-    inter = setInterval(box2Run, interTime);
-    document.addEventListener("keydown", move);
-    jostick.addEventListener("click", moveJoy);
-    if (window.screen.width < 500) jostick.classList.remove("hidden_btn");
-  }
+  if (tfEndGame) return;
+  reset();
+  box2.classList.remove("hidden");
+  item.classList.remove("hidden");
+  interBox2 = setInterval(box2Run, interTime);
+  document.addEventListener("keydown", move);
+  jostick.addEventListener("click", moveJoy);
+
+  if (window.screen.width < screenWidth) jostick.classList.remove("hidden_btn");
+}
+
+//reset the game
+function reset() {
+  speedBox1 = box1Speed;
+  speedBox2 = box2Speed;
+  speedBoxM = box1SpeedMobile;
+  interTime = interTimeChange;
+  whenChangeDir = ChangeDir;
+  tfEndGame = false;
+  checkDOU = false;
+  tfPauseGame = false;
+  bonusInvisiable = false;
+  bounsEx = false;
+  pointAdd = 1;
+  countBounsTime = 0;
+  scorePoints = 0;
+  stageLevel = 1;
+  counterStage = 0;
+  box1RL = calMarginWidth() / 2;
+  box1TD = calMarginHeight() / 2;
+  box2X = reletiveToBox(box1RL);
+  box2Y = reletiveToBox(box1TD);
+  itemX = reletiveToBox(box1RL);
+  itemY = reletiveToBox(box1TD);
+  score.textContent = `Score : ${scorePoints}`;
+  stage.textContent = `Stage  ${stageLevel}`;
+  box2.style.transform = `translate(${box2X}px, ${box2Y}px`;
+  box1.style.transform = `translate(${calMarginWidth() / 2}px, ${
+    calMarginHeight() / 2
+  }px) `;
+  box1.style.opacity = "1";
+  item.style.transform = `translate(${itemX}px, ${itemY}px) `;
+  item.textContent = `+${pointAdd}P`;
+  jostick.classList.add("hidden_btn");
+  box2.classList.add("hidden");
+  item.classList.add("hidden");
+  clearInterval(interBox2);
+  removeAddEvent();
+  changeColor();
 }
 
 //game actions
 btnStart.addEventListener("click", play);
 btnReset.addEventListener("click", reset);
-
+document.addEventListener("keydown", pauseKey);
+btnPasue.addEventListener("click", pauseButton);
 //checking:
 //   console.log(
 //     "cube1:",
