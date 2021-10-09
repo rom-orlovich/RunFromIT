@@ -97,8 +97,8 @@ function calMarginHeight() {
 //remove addEvent
 
 function removeAddEvent() {
-  document.removeEventListener("keydown", move);
-  jostick.removeEventListener("mousedown", moveJoy);
+  document.addEventListener("keydown", move);
+  jostick.addEventListener("mousedown", moveJoy);
 }
 
 //reset the Bounus Terms
@@ -232,9 +232,10 @@ function move(e) {
 //joystic play in smartphone
 function moveJoy(e) {
   e.preventDefault();
-  const btn = e.target;
+
   if (tfPauseGame) return;
   if (tfEndGame) return;
+  const btn = e.target;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
     if (box1RL < calMarginWidth() - speedBoxM)
@@ -345,7 +346,6 @@ function pauseButton(e) {
 function endGame() {
   clearInterval(interBox2);
   alert("gameOVER!");
-  removeAddEvent();
   reset();
 }
 
@@ -356,7 +356,7 @@ function play() {
   item.classList.remove("hidden");
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
-  jostick.addEventListener("click", moveJoy);
+  jostick.addEventListener("mousedown", moveJoy);
 
   if (window.screen.width < screenWidth) jostick.classList.remove("hidden_btn");
 }
