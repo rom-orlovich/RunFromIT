@@ -238,22 +238,22 @@ function moveJoy(e) {
   const btn = e.target;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
-    if (box1RL < calMarginWidth() - speedBoxM+4)
+    if (box1RL < calMarginWidth() - speedBoxM+5)
       box1.style.transform = `translate(${(box1RL +=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-left"))
-    if (box1RL > speedBoxM-4)
+    if (box1RL > speedBoxM-5)
       box1.style.transform = `translate(${(box1RL -=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-up"))
-    if (box1TD > speedBoxM-4)
+    if (box1TD > speedBoxM-5)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
         speedBoxM)}px) `;
 
   if (btn.classList.contains("btn-down"))
-    if (box1TD < calMarginHeight() - speedBoxM+4)
+    if (box1TD < calMarginHeight() - speedBoxM+5)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
         speedBoxM)}px) `;
 
