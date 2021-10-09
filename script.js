@@ -24,7 +24,7 @@ const bounusTimeEnd = 20000;
 const inters = null;
 const screenWidth = 1200;
 const bonusTimeAding = 7;
-// const Timeout = setTimeout(bonus, bounusTimeStart);
+
 let scorePoints = 0;
 let stageLevel = 1;
 let pointAdd = 1;
@@ -236,7 +236,7 @@ function moveJoy(e) {
   if (tfEndGame) return;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
-    if (box1RL < calMarginWidth() - speedBoxM * 1.1)
+    if (box1RL < calMarginWidth() - speedBoxM)
       box1.style.transform = `translate(${(box1RL +=
         speedBoxM)}px, ${box1TD}px) `;
 
@@ -251,7 +251,7 @@ function moveJoy(e) {
         speedBoxM)}px) `;
 
   if (btn.classList.contains("btn-down"))
-    if (box1TD < calMarginHeight() - speedBoxM * 1.1)
+    if (box1TD < calMarginHeight() - speedBoxM)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
         speedBoxM)}px) `;
 
