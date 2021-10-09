@@ -238,22 +238,22 @@ function moveJoy(e) {
   const btn = e.target;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
-    if (box1RL < calMarginWidth() - speedBoxM)
+    if (box1RL < calMarginWidth() - speedBoxM+10)
       box1.style.transform = `translate(${(box1RL +=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-left"))
-    if (box1RL > speedBoxM)
+    if (box1RL > speedBoxM-10)
       box1.style.transform = `translate(${(box1RL -=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-up"))
-    if (box1TD > speedBoxM)
+    if (box1TD > speedBoxM-10)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
         speedBoxM)}px) `;
 
   if (btn.classList.contains("btn-down"))
-    if (box1TD < calMarginHeight() - speedBoxM)
+    if (box1TD < calMarginHeight() - speedBoxM+10)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
         speedBoxM)}px) `;
 
@@ -346,7 +346,8 @@ function pauseButton(e) {
 function endGame() {
   clearInterval(interBox2);
   alert("gameOVER!");
-  
+  reset();
+tfPauseGame =true;
 
 }
 
