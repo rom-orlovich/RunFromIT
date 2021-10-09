@@ -37,6 +37,7 @@ let speedBoxM;
 let interTime;
 let whenChangeDir;
 let interBox2;
+
 let box2X;
 let box2Y;
 let box1RL;
@@ -342,15 +343,14 @@ function pauseButton(e) {
 
 //end game
 function endGame() {
-  clearInterval(inter);
+  clearInterval(interBox2);
+  alert("gameOVER!");
   removeAddEvent();
   reset();
-  alert("gameOVER!");
 }
 
 //start the game
 function play() {
-  if (tfEndGame) return;
   reset();
   box2.classList.remove("hidden");
   item.classList.remove("hidden");
