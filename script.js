@@ -45,7 +45,7 @@ let box1TD;
 let itemX;
 let itemY;
 let tfEndGame = false;
-let tfPauseGame = false;
+let tfPauseGame = true;
 let checkDOU = false;
 let bonusInvisiable = false;
 let bounsEx = false;
@@ -238,22 +238,22 @@ function moveJoy(e) {
   const btn = e.target;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
-    if (box1RL < calMarginWidth() - speedBoxM+5)
+    if (box1RL < calMarginWidth() - speedBoxM+3)
       box1.style.transform = `translate(${(box1RL +=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-left"))
-    if (box1RL > speedBoxM-5)
+    if (box1RL > speedBoxM-3)
       box1.style.transform = `translate(${(box1RL -=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-up"))
-    if (box1TD > speedBoxM-5)
+    if (box1TD > speedBoxM-3)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
         speedBoxM)}px) `;
 
   if (btn.classList.contains("btn-down"))
-    if (box1TD < calMarginHeight() - speedBoxM+5)
+    if (box1TD < calMarginHeight() - speedBoxM+3)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
         speedBoxM)}px) `;
 
