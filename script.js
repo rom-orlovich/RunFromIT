@@ -16,7 +16,7 @@ const jostick = document.querySelector(".btn-container_grid");
 
 const box1Speed = 10;
 const box2Speed = 1;
-const box1SpeedMobile = 20;
+const box1SpeedMobile = 15;
 const interTimeChange = 20;
 const ChangeDir = 100;
 const bounusTimeStart = 1000;
@@ -97,7 +97,7 @@ function calMarginHeight() {
 
 function removeAddEvent() {
   document.removeEventListener("keydown", move);
-  jostick.removeEventListener("click", moveJoy);
+  jostick.removeEventListener("mousedown", moveJoy);
 }
 
 //reset the Bounus Terms
