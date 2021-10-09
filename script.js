@@ -16,7 +16,7 @@ const jostick = document.querySelector(".btn-container_grid");
 
 const box1Speed = 10;
 const box2Speed = 1;
-const box1SpeedMobile = 25;
+const box1SpeedMobile = 40;
 const interTimeChange = 20;
 const ChangeDir = 100;
 const bounusTimeStart = 1000;
@@ -346,7 +346,7 @@ function pauseButton(e) {
 function endGame() {
   clearInterval(interBox2);
   alert("gameOVER!");
-  reset();
+  
 
 }
 
