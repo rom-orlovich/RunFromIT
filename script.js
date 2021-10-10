@@ -319,8 +319,7 @@ function resetBonusTerms() {
 // give the player bonus if he eat the item by random a number 1-2(Invisiable or number of points )
 function bonus() {
   item.classList.add("item_bonus");
-  const randomBonus = 2;
-  //  mathRandom(1, 3);
+  const randomBonus = mathRandom(1, 3);
 
   if (randomBonus === 1) {
     pointAdd = stageLevel + 1;
