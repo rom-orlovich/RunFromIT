@@ -401,6 +401,7 @@ function reset() {
   clearInterval(interBox2);
   removeAddEvent();
   changeColor();
+play();
 }
 
 //game actions
