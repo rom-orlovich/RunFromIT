@@ -359,7 +359,6 @@ function play() {
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
   jostick.addEventListener("mousedown", moveJoy);
-
   if (window.screen.width < screenWidth) jostick.classList.remove("hidden_btn");
 }
 
@@ -401,7 +400,7 @@ function reset() {
   clearInterval(interBox2);
   removeAddEvent();
   changeColor();
-play();
+
 }
 
 //game actions
