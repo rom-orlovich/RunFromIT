@@ -323,7 +323,7 @@ function bonus() {
     bonusInvisiable = true;
   }
 
-  activeState.textContent = `Active-Bonus:${
+  activeState.textContent = `${
     randomBonus === 1 ? "+" + pointAdd + "p" : "Invisiable"
   } 
 `;
@@ -340,7 +340,7 @@ function bonus() {
       item.classList.remove("item_bonus");
       item.textContent = `+${1}P`;
       box1.style.opacity = "1";
-      activeState.textContent = `Active-Bonus: none`;
+      activeState.textContent = `Off`;
       clearTimeout(timeOut);
       clearBonusTimer();
     }
@@ -456,7 +456,7 @@ function reset() {
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
   item.textContent = `+${pointAdd}P`;
   timerSW.textContent = ` ${min}:${sec}`;
-  activeState.textContent = `Active-Bonus: none`;
+  activeState.textContent = `Off`;
 
   joystic.classList.add("remove_btn");
   joystic.classList.add("hidden_Opc");
