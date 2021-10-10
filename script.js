@@ -396,7 +396,7 @@ function reset() {
   box1.style.opacity = "1";
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
   item.textContent = `+${pointAdd}P`;
-Jostick.classList.add("remove_btn");
+jostick.classList.add("remove_btn");
   jostick.classList.add("hidden_btn");
   box2.classList.add("hidden");
   item.classList.add("hidden");
