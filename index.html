@@ -169,13 +169,31 @@
 
       @media screen and (max-width: 500px) {
         #game_UI {
-          padding: 1rem;
+          padding: 1rem 2rem;
         }
+
+        .status {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          font-size: 1.4rem;
+          font-weight: 700;
+        }
+        .game-State {
+          display: flex;
+          flex-direction: column;
+
+          text-align: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          margin-right: 1rem;
+        }
+
         .container {
           height: 22.5rem;
           width: 22.5rem;
-          border: 1px black solid;
-          position: relative;
         }
         .box {
           height: 2.5rem;
@@ -208,7 +226,9 @@
           grid-template-rows: 1fr 1fr 1fr 1fr;
           justify-items: center;
           transition: 1s opacity;
+          padding: 0 1rem;
         }
+
         .btn-container_grid .btn {
           padding: 1rem 2rem;
         }
