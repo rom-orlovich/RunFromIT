@@ -10,7 +10,7 @@ const stage = document.querySelector(".stage");
 const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
 const btnPasue = document.querySelector(".btn-pause");
-const jostick = document.querySelector(".btn-container_grid");
+const joystic = document.querySelector(".btn-container_grid");
 const timerSW = document.querySelector(".timer");
 const activeState = document.querySelector(".Bonus_State");
 const timerBonus = document.querySelector(".timerBonus");
@@ -32,7 +32,7 @@ let stageLevel = 1;
 let pointAdd = 1;
 let countRound = 0;
 let counterStage = 1;
-let countBounsTime = 0;
+let countBonusTime = 0;
 let timerSec = 0;
 let timer;
 let bonusTimer;
@@ -52,7 +52,7 @@ let tfEndGame = false;
 let tfPauseGame = true;
 let checkDOU = false;
 let bonusInvisiable = false;
-let bounsEx = false;
+let bonusEx = false;
 let resetActive = false;
 let tfReset;
 let numQ;
@@ -123,13 +123,7 @@ function calMarginHeight() {
 
 function removeAddEvent() {
   document.addEventListener("keydown", move);
-  jostick.addEventListener("mousedown", moveJoy);
-}
-
-//reset the Bounus Terms
-function resetBounusTerms() {
-  countBounsTime = 0;
-  bounsEx = true;
+  joystic.addEventListener("mousedown", moveJoy);
 }
 
 //random a number
@@ -296,33 +290,40 @@ function itemPlay() {
     counterStage += pointAdd;
     score.textContent = `Score : ${scorePoints}`;
     changeStage();
-    countBounsTime++;
+    countBonusTime++;
   }
 
-  if (!bounsEx && countBounsTime > 1 && scorePoints % bonusTimeAding === 0) {
+  if (!bonusEx && countBonusTime > 1 && scorePoints % bonusTimeAding === 0) {
     bonus();
   }
 }
 
-// give the player bouns if he eat the item by random a number 1-2(Invisiable or number of points )
+//reset the Bonus Terms
+function resetBonusTerms() {
+  countBonusTime = 0;
+  bonusEx = true;
+}
+
+// give the player bonus if he eat the item by random a number 1-2(Invisiable or number of points )
 function bonus() {
   item.classList.add("item_bonus");
-  const randomBounus = mathRandom(1, 3);
-  console.log("randomBounus:", randomBounus);
-  if (randomBounus === 1) {
+  const randomBonus = mathRandom(1, 3);
+
+  if (randomBonus === 1) {
     pointAdd = stageLevel + 1;
     item.textContent = `+${pointAdd}P`;
-    resetBounusTerms();
-  } else if (randomBounus === 2) {
+    resetBonusTerms();
+  } else if (randomBonus === 2) {
     pointAdd = 1;
     item.textContent = `💫: O`;
-    box1.style.opacity = "0.7";
-    resetBounusTerms();
+    setTimeout(() => (item.textContent = `+${pointAdd}P`), 3000);
+    box1.style.opacity = "0.6";
+    resetBonusTerms();
     bonusInvisiable = true;
   }
 
   activeState.textContent = `Active-Bonus:${
-    randomBounus === 1 ? "+" + pointAdd + "p" : "Invisiable"
+    randomBonus === 1 ? "+" + pointAdd + "p" : "Invisiable"
   } 
 `;
 
@@ -331,10 +332,10 @@ function bonus() {
   //timeout clear and finish
   const timeOut = setTimeout(function () {
     if (!tfPauseGame) {
-      countBounsTime = 0;
+      countBonusTime = 0;
       pointAdd = 1;
       bonusInvisiable = false;
-      bounsEx = !bounsEx;
+      bonusEx = !bonusEx;
       item.classList.remove("item_bonus");
       item.textContent = `+${1}P`;
       box1.style.opacity = "1";
@@ -345,7 +346,7 @@ function bonus() {
   }, bonusTimeEnd);
 }
 
-// set Bounus Timer
+// set Bonus Timer
 function callBonusT() {
   bonusTimerRun();
   bonusTimer = setInterval(bonusTimerRun, 1000);
@@ -407,14 +408,13 @@ function play() {
   item.classList.remove("hidden");
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
-  jostick.addEventListener("mousedown", moveJoy);
+  joystic.addEventListener("mousedown", moveJoy);
   timerRun();
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
   tfReset = false;
   if (window.screen.width < screenWidth) {
-    jostick.classList.remove("remove_btn");
-    jostick.classList.remove("hidden_Opc");
+    joystic.classList.remove("hidden_Opc");
   }
 }
 
@@ -429,9 +429,9 @@ function reset() {
   checkDOU = false;
   tfPauseGame = false;
   bonusInvisiable = false;
-  bounsEx = false;
+  bonusEx = false;
   pointAdd = 1;
-  countBounsTime = 0;
+  countBonusTime = 0;
   scorePoints = 0;
   stageLevel = 1;
   counterStage = 0;
@@ -457,8 +457,8 @@ function reset() {
   timerSW.textContent = ` ${min}:${sec}`;
   activeState.textContent = `Active-Bonus: none`;
 
-  jostick.classList.add("remove_btn");
-  jostick.classList.add("hidden_Opc");
+  joystic.classList.add("remove_btn");
+  joystic.classList.add("hidden_Opc");
   box2.classList.add("hidden");
   item.classList.add("hidden");
 
