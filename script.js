@@ -77,9 +77,7 @@ function timerRun() {
 }
 
 function exitFunction() {
-  if (tfReset) return;
-  if (tfPauseGame) return;
-  if (tfEndGame) return;
+  return tfReset || tfPauseGame || tfEndGame;
 }
 
 //change diraction
@@ -231,8 +229,7 @@ function box2Run() {
 //move the the active player by keyboard
 function move(e) {
   e.preventDefault();
-  exitFunction();
-
+  if (exitFunction()) return;
   if (e.key === "ArrowRight")
     if (box1RL < calMarginWidth() - speedBox1)
       box1.style.transform = `translate(${(box1RL +=
@@ -258,7 +255,7 @@ function move(e) {
 //joystic play in smartphone
 function moveJoy(e) {
   e.preventDefault();
-  exitFunction();
+  if (exitFunction()) return;
   const btn = e.target;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
@@ -302,7 +299,7 @@ function itemPlay() {
     countBounsTime++;
   }
 
-  if (!bounsEx && countBounsTime > 1) {
+  if (!bounsEx && countBounsTime > 1 && scorePoints % bonusTimeAding === 0) {
     bonus();
   }
 }
@@ -341,6 +338,7 @@ function bonus() {
       item.classList.remove("item_bonus");
       item.textContent = `+${1}P`;
       box1.style.opacity = "1";
+      activeState.textContent = `Active-Bonus: none`;
       clearTimeout(timeOut);
       clearBonusTimer();
     }
@@ -457,8 +455,7 @@ function reset() {
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
   item.textContent = `+${pointAdd}P`;
   timerSW.textContent = ` ${min}:${sec}`;
-  activeState.textContent = `Active-Bonus: none
-`;
+  activeState.textContent = `Active-Bonus: none`;
 
   jostick.classList.add("remove_btn");
   jostick.classList.add("hidden_Opc");
