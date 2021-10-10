@@ -7,6 +7,7 @@ const body = document.querySelector("body");
 const con = document.querySelector(".container");
 const score = document.querySelector(".score");
 const stage = document.querySelector(".stage");
+const btnTopCon = document.querySelector(".btn-container");
 const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
 const btnPasue = document.querySelector(".btn-pause");
@@ -14,6 +15,8 @@ const joystic = document.querySelector(".btn-container_grid");
 const timerSW = document.querySelector(".timer");
 const activeState = document.querySelector(".Bonus_State");
 const timerBonus = document.querySelector(".timerBonus");
+const br = document.querySelectorAll(".Active-Bonus br");
+
 //variables
 
 const box1Speed = 10;
@@ -62,6 +65,15 @@ let min;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 reset();
+
+//change the game to deckstop mode;
+function desktopMode() {
+  br.forEach((x) => (x.style.display = "none"));
+  btnTopCon.style.marginTop = "1rem";
+  con.style.marginTop = "1rem";
+}
+
+(window.screen.width > 1200 && desktopMode()) || reset();
 
 //set the game's timer run
 function timerRun() {
