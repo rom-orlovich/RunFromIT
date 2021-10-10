@@ -25,7 +25,7 @@ const ChangeDir = 100;
 const bonusTimeEnd = 20000;
 const inters = null;
 const screenWidth = 1200;
-const bonusTimeAding = 7;
+const bonusTimeAding = 1;
 let bonTimeEndCount = bonusTimeEnd / 1000;
 let scorePoints = 0;
 let stageLevel = 1;
@@ -307,7 +307,8 @@ function resetBonusTerms() {
 // give the player bonus if he eat the item by random a number 1-2(Invisiable or number of points )
 function bonus() {
   item.classList.add("item_bonus");
-  const randomBonus = mathRandom(1, 3);
+  const randomBonus = 2;
+  //  mathRandom(1, 3);
 
   if (randomBonus === 1) {
     pointAdd = stageLevel + 1;
