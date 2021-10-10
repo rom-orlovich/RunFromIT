@@ -11,33 +11,37 @@ const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
 const btnPasue = document.querySelector(".btn-pause");
 const jostick = document.querySelector(".btn-container_grid");
-
+const timerSW = document.querySelector(".timer");
+const activeState = document.querySelector(".Bonus_State");
+const timerBonus = document.querySelector(".timerBonus");
 //variables
 
 const box1Speed = 10;
 const box2Speed = 1;
-const box1SpeedMobile = 15;
+const box1SpeedMobile = 40;
 const interTimeChange = 20;
 const ChangeDir = 100;
-const bounusTimeStart = 1000;
-const bounusTimeEnd = 20000;
+
+const bonusTimeEnd = 20000;
 const inters = null;
 const screenWidth = 1200;
-const bonusTimeAding = 7;
-
+const bonusTimeAding = 1;
+let bonTimeEndCount = bonusTimeEnd / 1000;
 let scorePoints = 0;
 let stageLevel = 1;
 let pointAdd = 1;
 let countRound = 0;
 let counterStage = 1;
 let countBounsTime = 0;
+let timerSec = 0;
+let timer;
+let bonusTimer;
 let speedBox1;
 let speedBox2;
 let speedBoxM;
 let interTime;
 let whenChangeDir;
 let interBox2;
-
 let box2X;
 let box2Y;
 let box1RL;
@@ -49,11 +53,34 @@ let tfPauseGame = false;
 let checkDOU = false;
 let bonusInvisiable = false;
 let bounsEx = false;
+let resetActive = false;
+let tfReset;
 let numQ;
+let sec;
+let min;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 reset();
+
+//set the game's timer run
+function timerRun() {
+  if (tfPauseGame) return;
+  timerSec++;
+  sec = Math.trunc(timerSec % 60)
+    .toString()
+    .padStart(2, 0);
+  min = Math.trunc(timerSec / 60)
+    .toString()
+    .padStart(2, 0);
+  timerSW.textContent = ` ${min}:${sec}`;
+}
+
+function exitFunction() {
+  if (tfReset) return;
+  if (tfPauseGame) return;
+  if (tfEndGame) return;
+}
 
 //change diraction
 function changeDir(n) {
@@ -204,8 +231,7 @@ function box2Run() {
 //move the the active player by keyboard
 function move(e) {
   e.preventDefault();
-  if (tfPauseGame) return;
-  if (tfEndGame) return;
+  exitFunction();
 
   if (e.key === "ArrowRight")
     if (box1RL < calMarginWidth() - speedBox1)
@@ -232,28 +258,26 @@ function move(e) {
 //joystic play in smartphone
 function moveJoy(e) {
   e.preventDefault();
-
-  if (tfPauseGame) return;
-  if (tfEndGame) return;
+  exitFunction();
   const btn = e.target;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
-    if (box1RL < calMarginWidth() - speedBoxM)
+    if (box1RL < calMarginWidth() - speedBoxM + 5)
       box1.style.transform = `translate(${(box1RL +=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-left"))
-    if (box1RL > speedBoxM)
+    if (box1RL > speedBoxM - 5)
       box1.style.transform = `translate(${(box1RL -=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-up"))
-    if (box1TD > speedBoxM)
+    if (box1TD > speedBoxM - 5)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
         speedBoxM)}px) `;
 
   if (btn.classList.contains("btn-down"))
-    if (box1TD < calMarginHeight() - speedBoxM)
+    if (box1TD < calMarginHeight() - speedBoxM + 5)
       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
         speedBoxM)}px) `;
 
@@ -278,7 +302,7 @@ function itemPlay() {
     countBounsTime++;
   }
 
-  if (!bounsEx && countBounsTime > 1 && countBounsTime % bonusTimeAding === 0) {
+  if (!bounsEx && countBounsTime > 1) {
     bonus();
   }
 }
@@ -300,17 +324,44 @@ function bonus() {
     bonusInvisiable = true;
   }
 
+  activeState.textContent = `Active-Bonus:${
+    randomBounus === 1 ? "+" + pointAdd + "p" : "Invisiable"
+  } 
+`;
+
+  callBonusT();
+
   //timeout clear and finish
   const timeOut = setTimeout(function () {
-    countBounsTime = 0;
-    pointAdd = 1;
-    bonusInvisiable = false;
-    bounsEx = !bounsEx;
-    item.classList.remove("item_bonus");
-    item.textContent = `+${1}P`;
-    box1.style.opacity = "1";
-    clearTimeout(timeOut);
-  }, bounusTimeEnd);
+    if (!tfPauseGame) {
+      countBounsTime = 0;
+      pointAdd = 1;
+      bonusInvisiable = false;
+      bounsEx = !bounsEx;
+      item.classList.remove("item_bonus");
+      item.textContent = `+${1}P`;
+      box1.style.opacity = "1";
+      clearTimeout(timeOut);
+      clearBonusTimer();
+    }
+  }, bonusTimeEnd);
+}
+
+// set Bounus Timer
+function callBonusT() {
+  bonusTimerRun();
+  bonusTimer = setInterval(bonusTimerRun, 1000);
+  timerBonus.classList.remove("hidden_Opc");
+}
+
+function bonusTimerRun() {
+  if (!tfPauseGame) timerBonus.textContent = `for: ${bonTimeEndCount--}`;
+}
+
+function clearBonusTimer() {
+  clearInterval(bonusTimer);
+  timerBonus.classList.add("hidden_Opc");
+  bonTimeEndCount = bonusTimeEnd / 1000;
 }
 
 //change the stage of the player after 10 points
@@ -339,6 +390,7 @@ function pauseKey(e) {
 // pause button function
 function pauseButton(e) {
   e.preventDefault();
+
   if (e.target.classList.contains("btn-pause")) tfPauseGame = !tfPauseGame;
 }
 
@@ -346,7 +398,8 @@ function pauseButton(e) {
 function endGame() {
   clearInterval(interBox2);
   alert("gameOVER!");
-  reset();
+
+  tfPauseGame = true;
 }
 
 //start the game
@@ -357,8 +410,14 @@ function play() {
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
   jostick.addEventListener("mousedown", moveJoy);
-
-  if (window.screen.width < screenWidth) jostick.classList.remove("hidden_btn");
+  timerRun();
+  timer = setInterval(timerRun, 1000);
+  clearBonusTimer();
+  tfReset = false;
+  if (window.screen.width < screenWidth) {
+    jostick.classList.remove("remove_btn");
+    jostick.classList.remove("hidden_Opc");
+  }
 }
 
 //reset the game
@@ -378,6 +437,10 @@ function reset() {
   scorePoints = 0;
   stageLevel = 1;
   counterStage = 0;
+  min = "00";
+  sec = "00";
+  timerSec = 0;
+  clearInterval(timer);
   box1RL = calMarginWidth() / 2;
   box1TD = calMarginHeight() / 2;
   box2X = reletiveToBox(box1RL);
@@ -393,12 +456,20 @@ function reset() {
   box1.style.opacity = "1";
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
   item.textContent = `+${pointAdd}P`;
-  jostick.classList.add("hidden_btn");
+  timerSW.textContent = ` ${min}:${sec}`;
+  activeState.textContent = `Active-Bonus: none
+`;
+
+  jostick.classList.add("remove_btn");
+  jostick.classList.add("hidden_Opc");
   box2.classList.add("hidden");
   item.classList.add("hidden");
-  clearInterval(interBox2);
+
   removeAddEvent();
+  clearBonusTimer();
+  clearInterval(interBox2);
   changeColor();
+  tfReset = true;
 }
 
 //game actions
