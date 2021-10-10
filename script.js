@@ -49,7 +49,7 @@ let box1TD;
 let itemX;
 let itemY;
 let tfEndGame = false;
-let tfPauseGame = false;
+let tfPauseGame = true;
 let checkDOU = false;
 let bonusInvisiable = false;
 let bounsEx = false;
@@ -62,6 +62,7 @@ let min;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 reset();
+<<<<<<< HEAD
 
 //set the game's timer run
 function timerRun() {
@@ -82,6 +83,9 @@ function exitFunction() {
   if (tfEndGame) return;
 }
 
+=======
+tfPauseGame =true;
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
 //change diraction
 function changeDir(n) {
   return checkDOU ? n : -n;
@@ -262,22 +266,38 @@ function moveJoy(e) {
   const btn = e.target;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
+<<<<<<< HEAD
     if (box1RL < calMarginWidth() - speedBoxM + 5)
+=======
+    if (box1RL < calMarginWidth() - speedBoxM+5)
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
       box1.style.transform = `translate(${(box1RL +=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-left"))
+<<<<<<< HEAD
     if (box1RL > speedBoxM - 5)
+=======
+    if (box1RL > speedBoxM-5)
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
       box1.style.transform = `translate(${(box1RL -=
         speedBoxM)}px, ${box1TD}px) `;
 
   if (btn.classList.contains("btn-up"))
+<<<<<<< HEAD
     if (box1TD > speedBoxM - 5)
+=======
+    if (box1TD > speedBoxM-5)
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
         speedBoxM)}px) `;
 
   if (btn.classList.contains("btn-down"))
+<<<<<<< HEAD
     if (box1TD < calMarginHeight() - speedBoxM + 5)
+=======
+    if (box1TD < calMarginHeight() - speedBoxM+5)
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
         speedBoxM)}px) `;
 
@@ -398,8 +418,14 @@ function pauseButton(e) {
 function endGame() {
   clearInterval(interBox2);
   alert("gameOVER!");
+<<<<<<< HEAD
 
   tfPauseGame = true;
+=======
+  reset();
+tfPauseGame =true;
+
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
 }
 
 //start the game
@@ -410,6 +436,7 @@ function play() {
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
   jostick.addEventListener("mousedown", moveJoy);
+<<<<<<< HEAD
   timerRun();
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
@@ -418,6 +445,11 @@ function play() {
     jostick.classList.remove("remove_btn");
     jostick.classList.remove("hidden_Opc");
   }
+=======
+  if (window.screen.width < screenWidth){
+jostick.classList.remove("remove_btn");
+ jostick.classList.remove("hidden_btn");}
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
 }
 
 //reset the game
@@ -456,12 +488,17 @@ function reset() {
   box1.style.opacity = "1";
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
   item.textContent = `+${pointAdd}P`;
+<<<<<<< HEAD
   timerSW.textContent = ` ${min}:${sec}`;
   activeState.textContent = `Active-Bonus: none
 `;
 
   jostick.classList.add("remove_btn");
   jostick.classList.add("hidden_Opc");
+=======
+jostick.classList.add("remove_btn");
+  jostick.classList.add("hidden_btn");
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
   box2.classList.add("hidden");
   item.classList.add("hidden");
 
@@ -469,7 +506,11 @@ function reset() {
   clearBonusTimer();
   clearInterval(interBox2);
   changeColor();
+<<<<<<< HEAD
   tfReset = true;
+=======
+
+>>>>>>> aa904e1f1dce30060186a5ca13ebe0f9ff49c53e
 }
 
 //game actions
