@@ -54,12 +54,19 @@
         font-size: 1.5rem;
         margin-right: 1rem;
       }
+
+      .timer {
+        font-size: 2rem;
+      }
       .game-State .Active-Bonus {
         font-size: 0.9rem;
         font-weight: 600;
         text-align: center;
       }
 
+      .timerBonus {
+        transition: 1s all;
+      }
       .container {
         height: 27rem;
         width: 27rem;
@@ -155,41 +162,21 @@
         opacity: 0;
       }
 
-      .hidden_btn {
-        opacity: 0;
-      }
-
       h4 {
         font-size: 0.8rem;
       }
-
-      .timerBonus {
-        transition: 1s all;
-      }
-
-      @media screen and (max-width: 500px) {
+      /* media queray to mobile */
+      @media screen and (max-width: 1100px) {
         #game_UI {
           top: 5%;
         }
         .status {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
           font-size: 1.4rem;
-          font-weight: 700;
+
           padding: 0 0.5rem;
-          text-align: center;
         }
         .game-State {
-          display: flex;
-          flex-direction: column;
-
-          text-align: center;
-          justify-content: center;
           font-size: 1.5rem;
-          margin-right: 1rem;
         }
 
         .container {
@@ -206,12 +193,6 @@
         }
 
         .btn-container {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-
-          justify-items: center;
-
-          column-gap: 2rem;
           padding: 0 1rem;
         }
 
@@ -221,7 +202,7 @@
 
         .btn-container_grid {
           position: absolute;
-          top: 100%;
+          top: 99%;
 
           display: grid;
           grid-template-columns: 1fr 1fr 1fr;
