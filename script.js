@@ -454,6 +454,7 @@ function play() {
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
   joystic.addEventListener("mousedown", moveJoy);
+  box1.addEventListener("touchend", touchEnd);
   timerRun();
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
