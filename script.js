@@ -460,14 +460,17 @@ function play() {
   item.classList.remove("hidden");
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
-  joystic.addEventListener("mousedown", moveJoy);
-  box1.addEventListener("touchend", touchEnd);
+   
+//   joystic.addEventListener("mousedown", moveJoy);
+ 
   timerRun();
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
   tfReset = false;
   if (window.screen.width < screenWidth) {
-    joystic.classList.remove("hidden_Opc");
+    //joystic.classList.remove("hidden_Opc");
+    box1.addEventListener("touchend", touchEnd);
+    box1.classList.add("box_transition");
   } else desktopMode("none", "1rem");
 }
 
@@ -514,7 +517,7 @@ function reset() {
   joystic.classList.add("hidden_Opc");
   box2.classList.add("hidden");
   item.classList.add("hidden");
-
+box1.classList.remove("box_transition");
   removeAddEvent();
   clearBonusTimer();
   clearInterval(interBox2);
