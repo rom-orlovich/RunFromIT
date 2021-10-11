@@ -35,6 +35,7 @@ const conW = con.getBoundingClientRect().width;
 const conH = con.getBoundingClientRect().height;
 const conX = con.getBoundingClientRect().left;
 const cony = con.getBoundingClientRect().top;
+console.log('cony',cony);
 let bonTimeEndCount = bonusTimeEnd / 1000;
 let scorePoints = 0;
 let stageLevel = 1;
@@ -297,24 +298,24 @@ function moveJoy(e) {
 function touchEnd(e){
  e.preventDefault();
   if (exitFunction()) return;
+
   if (e) {
     let el = e.changedTouches[0];
+   
     let boxX = 0;
     let boxY = 0;
     let x = el.pageX;
     let y = el.pageY;
+     console.log('x',x ,'y',y);
     let posX = x - conX - el.radiusX * 2;
     let posY = y - cony - el.radiusY * 2;
     let difX = posX - boxX ;
     let difY = posY - boxY;
     console.log("posX", posX, "posY", posY);
     console.log("difX", difX, "difY", difY);
-    box1TD=checkPos(
-      boxH,
-      difY,
-      conH
-    );
-   box1RL=checkPos(boxW, difX, conW);
+    box1RL=checkPos(boxW, difX, conW);
+    box1TD=checkPos(boxH,difY,conH);
+ 
     
      box1.style.transform = `translate(${box1RL}px,
 ${box1TD}px)`;
@@ -330,7 +331,7 @@ ${box1TD}px)`;
 }
 function checkPos(w, pos, B) {
   if (pos <= 0) return 0;
-  else if (pos > B-w) return B-w;
+  else if (pos > (B-w)) return B-w;
   else return pos;
 }
 
