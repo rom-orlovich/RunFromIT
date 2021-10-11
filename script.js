@@ -307,6 +307,8 @@ function touchEnd(e){
     let posY = y - cony - el.radiusY * 2;
     let difX = posX - boxX ;
     let difY = posY - boxY;
+    console.log("posX", posX, "posY", posY);
+    console.log("difX", difX, "difY", difY);
     box1TD=checkPos(
       boxH,
       difY,
@@ -316,6 +318,11 @@ function touchEnd(e){
     
      box1.style.transform = `translate(${box1RL}px,
 ${box1TD}px)`;
+    console.log(
+      "x-term:",
+      box1RL,
+      "Y-term:",
+     box1TD);
       boxX = posX;
     boxY = posY;
 }
