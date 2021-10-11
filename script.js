@@ -17,6 +17,7 @@ const activeState = document.querySelector(".Bonus_State");
 const timerBonus = document.querySelector(".timerBonus");
 const br = document.querySelectorAll(".Active-Bonus br");
 
+
 //variables
 
 const box1Speed = 10;
@@ -24,11 +25,14 @@ const box2Speed = 1;
 const box1SpeedMobile = 40;
 const interTimeChange = 20;
 const ChangeDir = 100;
-
 const bonusTimeEnd = 20000;
 const inters = null;
 const screenWidth = 1200;
 const bonusTimeAding = 7;
+const boxW= box1.getBoundingClientRect().width;
+const boxH= box1.getBoundingClientRect().Height;
+const conW = con.getBoundingClientRect().width;
+const conH = con.getBoundingClientRect().height;
 let bonTimeEndCount = bonusTimeEnd / 1000;
 let scorePoints = 0;
 let stageLevel = 1;
@@ -286,6 +290,34 @@ function moveJoy(e) {
         speedBoxM)}px) `;
 
   itemPlay();
+}
+
+function touchEnd(e){
+ e.preventDefault();
+  if (e) {
+    let el = e.changedTouches[0];
+    let boxX = 0;
+    let boxY = 0;
+    let x = el.pageX;
+    let y = el.pageY;
+    let posX = x - conX - el.radiusX * 2;
+    let posY = y - cony - el.radiusY * 2;
+    let difX = posX - boxX ;
+    let difY = posY - boxY;
+     box.style.transform = `translate(${checkPos(boxW, difX, conW)}px,
+${checkPos(
+      boxH,
+      difY,
+      conH
+    )}px)`;
+      boxX = posX;
+    boxY = posY;
+}
+}
+function checkPos(w, pos, B) {
+  if (pos <= 0) return 0;
+  else if (pos > B-w) return B-w;
+  else return pos;
 }
 
 //change the pos of item randomaly
