@@ -296,6 +296,7 @@ function moveJoy(e) {
 
 function touchEnd(e){
  e.preventDefault();
+  if (exitFunction()) return;
   if (e) {
     let el = e.changedTouches[0];
     let boxX = 0;
@@ -306,15 +307,19 @@ function touchEnd(e){
     let posY = y - cony - el.radiusY * 2;
     let difX = posX - boxX ;
     let difY = posY - boxY;
-     box1.style.transform = `translate(${checkPos(boxW, difX, conW)}px,
-${checkPos(
+    box1TD=checkPos(
       boxH,
       difY,
       conH
-    )}px)`;
+    );
+   box1RL=checkPos(boxW, difX, conW);
+    
+     box1.style.transform = `translate(${box1RL}px,
+${box1TD}px)`;
       boxX = posX;
     boxY = posY;
 }
+  itemPlay();
 }
 function checkPos(w, pos, B) {
   if (pos <= 0) return 0;
