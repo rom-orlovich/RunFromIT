@@ -30,7 +30,7 @@ const inters = null;
 const screenWidth = 1200;
 const bonusTimeAding = 7;
 const boxW= box1.getBoundingClientRect().width;
-const boxH= box1.getBoundingClientRect().Height;
+const boxH = box.getBoundingClientRect().height;
 const conW = con.getBoundingClientRect().width;
 const conH = con.getBoundingClientRect().height;
 const conX = con.getBoundingClientRect().left;
@@ -314,6 +314,7 @@ function touchEnd(e){
     console.log("posX", posX, "posY", posY);
     console.log("difX", difX, "difY", difY);
     box1RL=checkPos(boxW, difX, conW);
+    co
     box1TD=checkPos(boxH,difY,conH);
  
     
