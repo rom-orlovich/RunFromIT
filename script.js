@@ -306,7 +306,7 @@ function touchEnd(e){
     let posY = y - cony - el.radiusY * 2;
     let difX = posX - boxX ;
     let difY = posY - boxY;
-     box.style.transform = `translate(${checkPos(boxW, difX, conW)}px,
+     box1.style.transform = `translate(${checkPos(boxW, difX, conW)}px,
 ${checkPos(
       boxH,
       difY,
