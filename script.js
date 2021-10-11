@@ -67,13 +67,14 @@ let min;
 reset();
 
 //change the game to deckstop mode;
-function desktopMode() {
-  br.forEach((x) => (x.style.display = "none"));
-  btnTopCon.style.marginTop = "1rem";
-  con.style.marginTop = "1rem";
+function desktopMode(str, size) {
+  br.forEach((x) => (x.style.display = str));
+  btnTopCon.style.marginTop = size;
+  con.style.marginTop = size;
 }
 
-(window.screen.width > 1200 && desktopMode()) || reset();
+(window.screen.width > 1200 && desktopMode("none", "1rem")) ||
+  (desktopMode("block", "0rem") && reset());
 
 //set the game's timer run
 function timerRun() {
@@ -427,7 +428,7 @@ function play() {
   tfReset = false;
   if (window.screen.width < screenWidth) {
     joystic.classList.remove("hidden_Opc");
-  }
+  } else desktopMode("none", "1rem");
 }
 
 //reset the game
