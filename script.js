@@ -465,14 +465,14 @@ function play() {
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
    
-//   joystic.addEventListener("mousedown", moveJoy);
+  joystic.addEventListener("mousedown", moveJoy);
  
   timerRun();
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
   tfReset = false;
   if (window.screen.width < screenWidth) {
-    //joystic.classList.remove("hidden_Opc");
+    joystic.classList.remove("hidden_Opc");
     box1.addEventListener("touchend", touchEnd);
     box1.classList.add("box_transition");
   } else desktopMode("none", "1rem");
