@@ -33,7 +33,7 @@
         grid-template-columns: 1fr;
         grid-template-rows: 0.1fr 0.1fr 2fr 0.1fr;
         justify-items: center;
-
+        row-gap: 0.5rem;
         /* padding: 1rem; */
       }
 
@@ -70,7 +70,7 @@
         transition: 1s all;
       }
       .container {
-        height: 27rem;
+        height: 26rem;
         width: 75rem;
         border: 1px black solid;
         position: relative;
@@ -211,7 +211,6 @@
         }
         #game_UI {
           top: 3%;
-          row-gap: 1rem;
         }
         .game-State .Active-Bonus {
           font-size: 0.8rem;
@@ -275,7 +274,7 @@
         }
 
         .btn-container_grid {
-          top: 97%;
+          top: 96%;
         }
 
         .btn-container_grid .btn {
@@ -283,7 +282,7 @@
         }
       }
 
-      @media screen and (max-width: 360px) {
+      @media screen and (max-width: 500px) {
         body {
           overflow: hidden;
         }
@@ -346,7 +345,7 @@
 
       @media screen and (min-width: 500px) and (max-width: 1200px) {
         #game_UI {
-          top: 5%;
+          top: 0%;
         }
         .status {
           font-size: 2rem;
@@ -357,7 +356,10 @@
           font-size: 2rem;
         }
         .timer {
-          font-size: 2.5rem;
+          font-size: 1.8rem;
+        }
+        .game-State .Active-Bonus {
+          font-size: 1.2rem;
         }
         .game-State .Active-Bonus {
           font-size: 1rem;
@@ -365,8 +367,8 @@
           text-align: center;
         }
         .container {
-          height: 25rem;
-          width: 25rem;
+          height: 23rem;
+          width: 27rem;
         }
         .box {
           height: 2.8rem;

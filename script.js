@@ -17,6 +17,7 @@ const activeState = document.querySelector(".Bonus_State");
 const timerBonus = document.querySelector(".timerBonus");
 const br = document.querySelectorAll(".Active-Bonus br");
 
+console.log(window.innerWidth);
 //variables
 
 const box1Speed = 10;
