@@ -175,8 +175,8 @@ function mathRandom(min, max) {
 // random the reletive pos to box
 function reletiveToBox(pos) {
   return mathRandom(0, 2) === 1
-    ? pos + mathRandom(100, 150)
-    : pos - mathRandom(100, 150);
+    ? pos + mathRandom(75, 150)
+    : pos - mathRandom(75, 150);
 }
 
 //change color
@@ -513,8 +513,8 @@ function changeStage() {
     stage.textContent = `Stage  ${stageLevel}`;
     counterStage = 0;
   }
-  if (stageLevel > 5) whenChangeDir = 60;
-  if (stageLevel % 10 === 0) {
+  if (stageLevel > 5) whenChangeDir = 70;
+  if (scorePoints % 100 === 0) {
     body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
       0,
       255
@@ -625,6 +625,7 @@ function reset() {
   box1.style.transform = `translate(${calMarginWidth() / 2}px, ${
     calMarginHeight() / 2
   }px) `;
+  body.style.backgroundColor = "inherit";
   box1.style.opacity = "1";
   item.style.transform = `translate(${itemX}px, ${itemY}px) `;
   item.textContent = `+${pointAdd}P`;
