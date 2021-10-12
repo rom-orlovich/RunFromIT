@@ -37,15 +37,17 @@ const inters = null;
 const screenWidth = 1200;
 const bonusTimeAding = 7;
 //touch setting variables
-const boxW = box1.getBoundingClientRect().width;
-const boxH = box1.getBoundingClientRect().height;
-let itemW;
-let itemH;
 
 const conW = con.getBoundingClientRect().width;
 const conH = con.getBoundingClientRect().height;
 const conX = con.getBoundingClientRect().left;
 const cony = con.getBoundingClientRect().top;
+const boxW = box1.getBoundingClientRect().width;
+const boxH = box1.getBoundingClientRect().height;
+let box2W;
+let box2H;
+let itemW;
+let itemH;
 ///////////////////////////////////////////////
 let bonTimeEndCount = bonusTimeEnd / 1000;
 let scorePoints = 0;
@@ -117,7 +119,7 @@ function changeDir(n) {
   return checkDOU ? n : -n;
 }
 
-//calculate the borders
+//calculate the postion of the borders relative to the current pos
 function calBorderBot(pos, box) {
   return pos + box.offsetHeight / 2;
 }
@@ -180,6 +182,13 @@ function changeColor() {
   )},${mathRandom(0, 200)},0.${mathRandom(6, 9)})`;
 }
 
+//check if the postion of item is vaild
+function checkPos(itemS, pos, conS) {
+  if (pos <= 0) return 0;
+  else if (pos >= conS - itemS) return conS - itemS;
+  else return pos;
+}
+
 //check the movments
 function check(X1, Y1, X2, Y2) {
   if (
@@ -224,7 +233,8 @@ function box2Run() {
 
   if (tfEndGame) return endGame();
   countRound++;
-
+  box2W = box2.getBoundingClientRect().width;
+  box2H = box2.getBoundingClientRect().height;
   if (box2Y < 0) checkDOU = !checkDOU;
   else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2)
     checkDOU = !checkDOU;
@@ -232,9 +242,11 @@ function box2Run() {
     checkDOU = !checkDOU;
   else if (box2X < 0) checkDOU = !checkDOU;
 
+  //change the diraction according to the random num which decides the dircation;
+
   if (countRound === whenChangeDir) {
     countRound = 0;
-    numQ = mathRandom(1, 3);
+    numQ = mathRandom(1, 4);
   }
   if (numQ === 1) box2X += changeDir(speedBox2);
   else if (numQ === 2) box2Y += changeDir(speedBox2);
@@ -242,10 +254,16 @@ function box2Run() {
     box2X += changeDir(speedBox2);
     box2Y += changeDir(speedBox2);
   } else box2Y += changeDir(speedBox2);
-  box2.style.transform = `translate(${box2X}px, ${box2Y}px) `;
+
+  box2.style.transform = `translate(${checkPos(
+    box2W,
+    box2X,
+    conW
+  )}px, ${checkPos(box2H, box2Y, conH)}px) `;
 }
 
 //move the the active player by keyboard
+
 function move(e) {
   e.preventDefault();
   if (exitFunction()) return;
@@ -328,12 +346,6 @@ ${box1TD}px)`;
     boxY = posY;
   }
   itemPlay();
-}
-//check if the postion of item is vaild
-function checkPos(itemS, pos, conS) {
-  if (pos <= 0) return 0;
-  else if (pos > conS - itemS) return conS - itemS;
-  else return pos;
 }
 
 //change the pos of item randomaly
@@ -499,6 +511,7 @@ function endGame() {
 //start the game
 function play() {
   reset();
+
   box2.classList.remove("hidden");
   item.classList.remove("hidden");
   interBox2 = setInterval(box2Run, interTime);
