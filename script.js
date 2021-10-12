@@ -296,55 +296,82 @@ function moveJoy(e) {
   const btn = e.target;
   if (!btn.classList.contains("btn")) return;
   if (btn.classList.contains("btn-right"))
-    if (box1RL < calMarginWidth() - speedBoxM + 5)
-      box1.style.transform = `translate(${(box1RL +=
-        speedBoxM)}px, ${box1TD}px) `;
-
-  if (btn.classList.contains("btn-left"))
-    if (box1RL > speedBoxM - 5)
-      box1.style.transform = `translate(${(box1RL -=
-        speedBoxM)}px, ${box1TD}px) `;
-
-  if (btn.classList.contains("btn-up"))
-    if (box1TD > speedBoxM - 5)
-      box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
-        speedBoxM)}px) `;
-
-  if (btn.classList.contains("btn-down"))
-    if (box1TD < calMarginHeight() - speedBoxM + 5)
-      box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
-        speedBoxM)}px) `;
+    // if (box1RL < calMarginWidth() - speedBoxM + 7)
+    box1.style.transform = `translate(${checkPos(
+      boxW,
+      (box1RL += speedBoxM),
+      conW
+    )}px, ${checkPos(boxH, box1TD, conH)}px) `;
+  else if (btn.classList.contains("btn-left"))
+    // if (box1RL > speedBoxM - 7)
+    box1.style.transform = `translate(${checkPos(
+      boxW,
+      (box1RL -= speedBoxM),
+      conW
+    )}px, ${checkPos(boxH, box1TD, conH)}px) `;
+  else if (btn.classList.contains("btn-up"))
+    // if (box1TD > speedBoxM - 7)
+    box1.style.transform = `translate(${checkPos(
+      boxW,
+      box1RL,
+      conW
+    )}px, ${checkPos(boxH, (box1TD -= speedBoxM), conH)}px) `;
+  else if (btn.classList.contains("btn-down"))
+    // if (box1TD < calMarginHeight() - speedBoxM + 7)
+    box1.style.transform = `translate(${checkPos(
+      boxW,
+      box1RL,
+      conW
+    )}px, ${checkPos(boxH, (box1TD += speedBoxM), conH)}px) `;
 
   itemPlay();
 }
-//slide the box1 with touchmove
-function touchEnd(e) {
+
+// // slide the box1 with touchmove
+// function touchEnd(e) {
+//   e.preventDefault();
+//   if (exitFunction()) return;
+
+//   if (e) {
+//     let el = e.changedTouches[0];
+
+//     let boxX = 0;
+//     let boxY = 0;
+//     let x = el.pageX;
+//     let y = el.pageY;
+
+//     let posX = x - conX - el.radiusX * 2;
+//     let posY = y - cony - el.radiusY * 2;
+//     let difX = posX - boxX;
+//     let difY = posY - boxY;
+
+//     box1RL = checkPos(boxW, difX, conW);
+
+//     box1TD = checkPos(boxH, difY, conH);
+
+//     box1.style.transform = `translate(${box1RL}px,
+// ${box1TD}px)`;
+
+//     boxX = posX;
+//     boxY = posY;
+//   }
+//   itemPlay();
+// }
+function touch(e) {
   e.preventDefault();
   if (exitFunction()) return;
+  let el = e.touches[0];
+  console.log(el);
+  let x = el.pageX;
+  let y = el.pageY;
+  let posX = x - conX - el.radiusX * 0.9;
+  let posY = y - cony - el.radiusY * 0.9;
+  console.log("x:", x, "y:", y);
+  console.log("posX", posX, "posY ", posY);
 
-  if (e) {
-    let el = e.changedTouches[0];
-
-    let boxX = 0;
-    let boxY = 0;
-    let x = el.pageX;
-    let y = el.pageY;
-
-    let posX = x - conX - el.radiusX * 2;
-    let posY = y - cony - el.radiusY * 2;
-    let difX = posX - boxX;
-    let difY = posY - boxY;
-
-    box1RL = checkPos(boxW, difX, conW);
-
-    box1TD = checkPos(boxH, difY, conH);
-
-    box1.style.transform = `translate(${box1RL}px,
-${box1TD}px)`;
-
-    boxX = posX;
-    boxY = posY;
-  }
+  box1RL = checkPos(boxW, posX, conW);
+  box1TD = checkPos(boxH, posY, conH);
+  box1.style.transform = `translate(${box1RL}px,${box1TD}px)`;
   itemPlay();
 }
 
@@ -578,6 +605,7 @@ function reset() {
 }
 
 //game actions
+box1.addEventListener("touchmove", touch);
 btnStart.addEventListener("click", play);
 document.addEventListener("keydown", pauseKey);
 btnPasue.addEventListener("click", pauseButton);
