@@ -32,7 +32,7 @@ const box2Speed = 1;
 const box1SpeedMobile = 40;
 const interTimeChange = 20;
 const ChangeDir = 120;
-const bonusTimeEnd = 15000;
+const bonusTimeEnd = 10000;
 const inters = null;
 const screenWidth = 1200;
 const bonusTimeAding = 7;
@@ -83,7 +83,16 @@ let tfReset;
 let numQ;
 let sec;
 let min;
+let elEND;
 
+let boxXEND;
+let boxYEND;
+let xEND;
+let yEND;
+let posXEND;
+let posYEND;
+let difXEND;
+let difYEND;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 reset();
@@ -255,7 +264,7 @@ function box2Run() {
     countRound = 0;
     numQ = mathRandom(1, 6);
   }
-  console.log("ANYTIME", speedBox2);
+
   if (numQ === 1 || numQ === 2) box2X += changeDir(speedBox2);
   else if (numQ === 3 || numQ === 4) box2Y += changeDir(speedBox2);
   else if (numQ === 5) {
@@ -340,30 +349,32 @@ function touchEnd(e) {
   e.preventDefault();
   if (exitFunction()) return;
 
-  if (e) {
-    let el = e.changedTouches[0];
+  elEND = e.changedTouches[0];
 
-    let boxX = 0;
-    let boxY = 0;
-    let x = el.pageX;
-    let y = el.pageY;
+  boxXEND = 0;
+  boxYEND = 0;
+  xEND = elEND.pageX;
+  yEND = elEND.pageY;
 
-    let posX = x - conX - el.radiusX * 2;
-    let posY = y - cony - el.radiusY * 2;
-    let difX = posX - boxX;
-    let difY = posY - boxY;
+  posXEND = xEND - conX - elEND.radiusX * 2;
+  posYEND = yEND - cony - elEND.radiusY * 2;
+  difXEND = posXEND - boxXEND;
+  difYEND = posYEND - boxYEND;
 
-    box1RL = checkPos(boxW, difX, conW);
+  box1RL = checkPos(boxW, difXEND, conW);
 
-    box1TD = checkPos(boxH, difY, conH);
+  box1TD = checkPos(boxH, difYEND, conH);
 
-    box1.style.transform = `translate(${box1RL}px,
+  box1.style.transform = `translate(${box1RL}px,
 ${box1TD}px)`;
 
-    boxX = posX;
-    boxY = posY;
-  }
+  boxXEND = posXEND;
+  boxYEND = posYEND;
+
   itemPlay();
+}
+function checkDif(pos1X, pos2X, X, pos1Y, pos2Y, Y) {
+  if (pos1X <= X && pos2X >= X && pos1Y <= Y && pos2Y >= Y) return true;
 }
 
 //move by touch the box
@@ -383,21 +394,12 @@ function touch(e) {
   itemPlay();
 }
 
-//change the pos of item randomaly
-function itemChangePos() {
-  itemX = reletiveToBox(calMarginWidth() / 2);
-  itemY = reletiveToBox(calMarginHeight() / 2);
-
-  item.style.transform = `translate(${checkPos(
-    itemW,
-    itemX,
-    conW
-  )}px, ${checkPos(itemH, itemY, conH)}px) `;
-}
-
 //item-playing
 function itemPlay() {
-  if (check(box1RL, box1TD, itemX, itemY)) {
+  if (
+    check(box1RL, box1TD, itemX, itemY) ||
+    checkDif(boxXEND, posXEND, itemX, boxYEND, posYEND, itemY)
+  ) {
     itemW = item.getBoundingClientRect().width;
     itemH = item.getBoundingClientRect().height;
     audioPlay("mixkit-game-ball-tap-2073.wav");
@@ -413,6 +415,17 @@ function itemPlay() {
     item.classList.add("item_bonus");
     bonus();
   }
+}
+//change the pos of item randomaly
+function itemChangePos() {
+  itemX = reletiveToBox(calMarginWidth() / 2);
+  itemY = reletiveToBox(calMarginHeight() / 2);
+
+  item.style.transform = `translate(${checkPos(
+    itemW,
+    itemX,
+    conW
+  )}px, ${checkPos(itemH, itemY, conH)}px) `;
 }
 
 //reset the Bonus Terms
@@ -687,88 +700,4 @@ btnShow.addEventListener("click", openJoystick);
 //   body.offsetHeight / 2 - con.offsetHeight / 2
 // );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-// box1.addEventListener("touchmove", touchMove);
-// document.addEventListener("touchmove", touchMove);
-// let c = 0;
-// function touchMove(e) {
-//   let touch = e.touches[0];
-//   console.log(e.touches[0]);
-//   // let touch = e;
-//   let touchX = Math.trunc(touch.clientX);
-//   let touchY = Math.trunc(touch.clientY);
-//   // let posL = box1RL;
-//   // let posR = 0;
-//   // let posU = box1TD;
-//   // let posD = 0;
-//   let posRLB = box1RL;
-
-//   let posUDB = box1TD;
-//   console.log(`move: ${c++}`);
-//   console.log(" ");
-//   console.log("touchX:", touchX, "touchY:", touchY);
-//   console.log(" ");
-//   console.log("box1:", "box1RL:", box1RL, "box1TD", box1TD);
-
-//   console.log(" ");
-//   // console.log(
-//   //   "currentPos",
-//   //   "posL",
-//   //   posL,
-//   //   "posR",
-//   //   posR,
-//   //   "posU",
-//   //   posU,
-//   //   "posD",
-//   //   posD
-//   // );
-
-//   // move Left
-//   if (touchX < posRLB)
-//     if (box1RL > 2) {
-//       // posL = touchX;
-//       posRLB = touchX;
-
-//       box1.style.transform = `translate(${(box1RL -=
-//         speedBox1)}px, ${box1TD}px) `;
-//     }
-
-//   // move right
-
-//   if (touchX > posRLB)
-//     if (box1RL < calMarginWidth() * 0.98) {
-//       // posR = touchX;
-//       posRLB = touchX;
-//       box1.style.transform = `translate(${(box1RL +=
-//         speedBox1)}px, ${box1TD}px) `;
-//     }
-
-//   //moveUp
-//   if (touchY < posUDB)
-//     if (box1TD > 0) {
-//       // posU = touchY;
-//       posUDB = touchY;
-//       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
-//         speedBox1)}px) `;
-//     }
-
-//   // move down
-//   if (touchY > posUDB)
-//     if (box1TD < calMarginHeight() * 0.98) {
-//       // posD = touchY;
-//       posUDB = touchY;
-//       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
-//         speedBox1)}px) `;
-//     }
-//   console.log(" ");
-//   // console.log(
-//   //   "currentPos",
-//   //   "posL",
-//   //   posL,
-//   //   "posR",
-//   //   posR,
-//   //   "posU",
-//   //   posU,
-//   //   "posD",
-//   //   posD
-//   // );
-// }
+//
