@@ -175,8 +175,8 @@ function mathRandom(min, max) {
 // random the reletive pos to box
 function reletiveToBox(pos) {
   return mathRandom(0, 2) === 1
-    ? pos + mathRandom(75, 150)
-    : pos - mathRandom(75, 150);
+    ? pos + mathRandom(75, 125)
+    : pos - mathRandom(75, 125);
 }
 
 //change color
