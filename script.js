@@ -78,7 +78,7 @@ let bonusInvisiable = false;
 let bonusEx = false;
 let resetActive = false;
 let tfPlayGame = false;
-let speedBounus = false;
+let speedBonus = false;
 let tfReset;
 let numQ;
 let sec;
@@ -453,7 +453,7 @@ function bonus() {
   } else if (randomBonus === 3) {
     newSpeedBox2 = speedBox2;
     speedBox2 = speedBox2 / stageLevel;
-    speedBounus = true;
+    speedBonus = true;
     resetBonusTerms();
   }
 
@@ -473,7 +473,7 @@ function bonus() {
       countBonusTime = 0;
       pointAdd = 1;
       bonusInvisiable = false;
-      speedBounus = false;
+      speedBonus = false;
       speedBox2 = stageLevel + 1;
       bonusEx = !bonusEx;
       item.classList.remove("item_bonus");
@@ -508,11 +508,12 @@ function changeStage() {
   if (counterStage >= 10) {
     audioPlay("level-completed.mp3");
     stageLevel++;
-    if (!speedBounus && stageLevel % 2 !== 0) speedBox2 += 1;
+    if (!speedBonus && stageLevel % 2 !== 0) speedBox2 += 1;
 
     stage.textContent = `Stage  ${stageLevel}`;
     counterStage = 0;
   }
+  if (stageLevel > 5) whenChangeDir = 60;
   if (stageLevel % 10 === 0) {
     body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
       0,
