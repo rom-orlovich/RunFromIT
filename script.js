@@ -438,7 +438,7 @@ function resetBonusTerms() {
 function bonus() {
   audioPlay("mixkit-extra-bonus-in-a-video-game-2045.wav");
 
-  const randomBonus = mathRandom(1, 3);
+  const randomBonus = mathRandom(1, 4);
   if (randomBonus === 1) {
     stageLevel < 5 ? (pointAdd = stageLevel + 1) : (pointAdd = 3);
     item.textContent = `+${pointAdd}P`;
