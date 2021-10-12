@@ -631,7 +631,7 @@ function reset() {
   timerSW.textContent = ` ${min}:${sec}`;
   activeState.textContent = `Off`;
   btnPasue.textContent = "Pasue Game";
-btnPause.dataset.start='Pause';
+btnPasue.dataset.start='Pause';
   box2.classList.add("hidden");
   item.classList.add("hidden");
   item.classList.remove("item_bonus");
