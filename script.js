@@ -72,6 +72,7 @@ let checkDOU = false;
 let bonusInvisiable = false;
 let bonusEx = false;
 let resetActive = false;
+let tfPlayGame = false;
 let tfReset;
 let numQ;
 let sec;
@@ -436,6 +437,25 @@ function changeStage() {
   }
 }
 
+// Show the joyStick button
+function openJoystick() {
+  btnShow.insertAdjacentHTML("afterend", htmlTextJoyStick);
+  btnShow.classList.add("hidden");
+  joystick = document.querySelector(".btn-container_grid");
+  HideButton = document.querySelector(".btn-remove");
+  HideButton.addEventListener("click", HideButtons);
+  joystick.classList.remove("hidden");
+  joystick.classList.remove("hidden_Opc");
+  joystick.addEventListener("mousedown", moveJoy);
+}
+// Hide the joyStick button
+function HideButtons() {
+  joystick.classList.add("hidden");
+  joystick.classList.add("hidden_Opc");
+  joystick.removeEventListener("mousedown", moveJoy);
+  btnShow.classList.remove("hidden");
+}
+
 // pause key function
 function pauseKey(e) {
   e.preventDefault();
@@ -446,7 +466,16 @@ function pauseKey(e) {
 function pauseButton(e) {
   e.preventDefault();
 
-  if (e.target.classList.contains("btn-pause")) tfPauseGame = !tfPauseGame;
+  if (e.target.classList.contains("btn-pause")) {
+    tfPauseGame = !tfPauseGame;
+    if (!tfEndGame && tfPlayGame) {
+      e.target.textContent = `${e.target.dataset.start} Game`;
+      e.target.dataset.start =
+        e.target.dataset.start === "Resume"
+          ? "Pause"
+          : e.target.dataset.start === "Pause" && "Resume";
+    }
+  }
 }
 
 //end game
@@ -467,28 +496,11 @@ function play() {
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
   tfReset = false;
+  tfPlayGame = true;
   if (window.screen.width < screenWidth) {
     box1.addEventListener("touchend", touchEnd);
     box1.classList.add("box_transition");
   } else desktopMode("none", "1rem");
-}
-
-function openJoystick() {
-  btnShow.insertAdjacentHTML("afterend", htmlTextJoyStick);
-  btnShow.classList.add("hidden");
-  joystick = document.querySelector(".btn-container_grid");
-  HideButton = document.querySelector(".btn-remove");
-  HideButton.addEventListener("click", HideButtons);
-  joystick.classList.remove("hidden");
-  joystick.classList.remove("hidden_Opc");
-  joystick.addEventListener("mousedown", moveJoy);
-}
-
-function HideButtons() {
-  joystick.classList.add("hidden");
-  joystick.classList.add("hidden_Opc");
-  joystick.removeEventListener("mousedown", moveJoy);
-  btnShow.classList.remove("hidden");
 }
 
 //reset the game
@@ -503,6 +515,7 @@ function reset() {
   tfPauseGame = false;
   bonusInvisiable = false;
   bonusEx = false;
+  tfPlayGame = false;
   pointAdd = 1;
   countBonusTime = 0;
   scorePoints = 0;
@@ -529,6 +542,7 @@ function reset() {
   item.textContent = `+${pointAdd}P`;
   timerSW.textContent = ` ${min}:${sec}`;
   activeState.textContent = `Off`;
+  btnPasue.textContent = "Pasue Game";
   box2.classList.add("hidden");
   item.classList.add("hidden");
   box1.classList.remove("box_transition");
@@ -541,9 +555,9 @@ function reset() {
 
 //game actions
 btnStart.addEventListener("click", play);
-btnReset.addEventListener("click", reset);
 document.addEventListener("keydown", pauseKey);
 btnPasue.addEventListener("click", pauseButton);
+btnReset.addEventListener("click", reset);
 btnShow.addEventListener("click", openJoystick);
 //checking:
 //   console.log(
