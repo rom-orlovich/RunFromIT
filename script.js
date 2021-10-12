@@ -328,35 +328,37 @@ function moveJoy(e) {
 }
 
 // // slide the box1 with touchmove
-// function touchEnd(e) {
-//   e.preventDefault();
-//   if (exitFunction()) return;
+function touchEnd(e) {
+  e.preventDefault();
+  if (exitFunction()) return;
 
-//   if (e) {
-//     let el = e.changedTouches[0];
+  if (e) {
+    let el = e.changedTouches[0];
 
-//     let boxX = 0;
-//     let boxY = 0;
-//     let x = el.pageX;
-//     let y = el.pageY;
+    let boxX = 0;
+    let boxY = 0;
+    let x = el.pageX;
+    let y = el.pageY;
 
-//     let posX = x - conX - el.radiusX * 2;
-//     let posY = y - cony - el.radiusY * 2;
-//     let difX = posX - boxX;
-//     let difY = posY - boxY;
+    let posX = x - conX - el.radiusX * 2;
+    let posY = y - cony - el.radiusY * 2;
+    let difX = posX - boxX;
+    let difY = posY - boxY;
 
-//     box1RL = checkPos(boxW, difX, conW);
+    box1RL = checkPos(boxW, difX, conW);
 
-//     box1TD = checkPos(boxH, difY, conH);
+    box1TD = checkPos(boxH, difY, conH);
 
-//     box1.style.transform = `translate(${box1RL}px,
-// ${box1TD}px)`;
+    box1.style.transform = `translate(${box1RL}px,
+${box1TD}px)`;
 
-//     boxX = posX;
-//     boxY = posY;
-//   }
-//   itemPlay();
-// }
+    boxX = posX;
+    boxY = posY;
+  }
+  itemPlay();
+}
+
+//move by touch the box
 function touch(e) {
   e.preventDefault();
   if (exitFunction()) return;
