@@ -17,7 +17,6 @@ const activeState = document.querySelector(".Bonus_State");
 const timerBonus = document.querySelector(".timerBonus");
 const br = document.querySelectorAll(".Active-Bonus br");
 
-
 //variables
 
 const box1Speed = 10;
@@ -29,13 +28,14 @@ const bonusTimeEnd = 20000;
 const inters = null;
 const screenWidth = 1200;
 const bonusTimeAding = 7;
-const boxW= box1.getBoundingClientRect().width;
+//touch setting variables
+const boxW = box1.getBoundingClientRect().width;
 const boxH = box1.getBoundingClientRect().height;
 const conW = con.getBoundingClientRect().width;
 const conH = con.getBoundingClientRect().height;
 const conX = con.getBoundingClientRect().left;
 const cony = con.getBoundingClientRect().top;
-
+///////////////////////////////////////////////
 let bonTimeEndCount = bonusTimeEnd / 1000;
 let scorePoints = 0;
 let stageLevel = 1;
@@ -295,39 +295,38 @@ function moveJoy(e) {
   itemPlay();
 }
 
-function touchEnd(e){
- e.preventDefault();
+function touchEnd(e) {
+  e.preventDefault();
   if (exitFunction()) return;
 
   if (e) {
     let el = e.changedTouches[0];
-   
+
     let boxX = 0;
     let boxY = 0;
     let x = el.pageX;
     let y = el.pageY;
-    
+
     let posX = x - conX - el.radiusX * 2;
     let posY = y - cony - el.radiusY * 2;
-    let difX = posX - boxX ;
+    let difX = posX - boxX;
     let difY = posY - boxY;
-   
-    box1RL=checkPos(boxW, difX, conW);
-    
-    box1TD=checkPos(boxH,difY,conH);
- 
-    
-     box1.style.transform = `translate(${box1RL}px,
+
+    box1RL = checkPos(boxW, difX, conW);
+
+    box1TD = checkPos(boxH, difY, conH);
+
+    box1.style.transform = `translate(${box1RL}px,
 ${box1TD}px)`;
-   
-      boxX = posX;
+
+    boxX = posX;
     boxY = posY;
-}
+  }
   itemPlay();
 }
 function checkPos(w, pos, B) {
   if (pos <= 0) return 0;
-  else if (pos > (B-w)) return B-w;
+  else if (pos > B - w) return B - w;
   else return pos;
 }
 
@@ -464,9 +463,9 @@ function play() {
   item.classList.remove("hidden");
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
-   
+
   joystic.addEventListener("mousedown", moveJoy);
- 
+
   timerRun();
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
@@ -521,7 +520,7 @@ function reset() {
   joystic.classList.add("hidden_Opc");
   box2.classList.add("hidden");
   item.classList.add("hidden");
-box1.classList.remove("box_transition");
+  box1.classList.remove("box_transition");
   removeAddEvent();
   clearBonusTimer();
   clearInterval(interBox2);
