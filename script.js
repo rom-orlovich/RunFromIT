@@ -514,7 +514,7 @@ function changeStage() {
     counterStage = 0;
   }
   if (stageLevel > 5) whenChangeDir = 70;
-  if (scorePoints % 100 === 0) {
+  if ((scorePoints % 100 >= 0 || scorePoints % 100 < 2) && scorePoints >= 100) {
     body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
       0,
       255
