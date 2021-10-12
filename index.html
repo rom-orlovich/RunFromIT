@@ -164,7 +164,7 @@
 
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
         justify-items: center;
         transition: 1s opacity;
         padding: 0 1rem;
@@ -193,12 +193,15 @@
         grid-row: 2;
         grid-column: 1;
       }
-
-      .hidden {
-        display: none;
+      .btn-container_grid .btn.btn-remove {
+        position: absolute;
+        top: 37%;
+        padding: 0.5rem 1em;
+        opacity: 1;
+        font-size: 1.2rem;
       }
 
-      .remove_btn {
+      .hidden {
         display: none;
       }
 
@@ -264,9 +267,7 @@
         .btn {
           padding: 0.2rem 1.2rem;
         }
-        .remove_btn {
-          display: inherit;
-        }
+      
 
         .btn-container {
           padding: 0 1rem;
@@ -290,6 +291,7 @@
           overflow: hidden;
           /* display: unset; */
         }
+
         #game_UI {
           top: 3%;
           row-gap: 1rem;
@@ -342,8 +344,9 @@
         .btn {
           padding: 0.2rem 1.2rem;
         }
-        .remove_btn {
-          display: inherit;
+
+        .btn-show {
+          padding: 1rem 2rem;
         }
         .btn-container_grid .btn {
           padding: 1rem 2rem;
@@ -438,10 +441,12 @@
         <div class="item hidden">+1</div>
       </div>
 
-      <!-- button bottom-board
-      <div class="btn-container_grid remove_btn">
+      <!-- button bottom-board  remove_btn-->
+      <button class="btn btn-show">ShowButton</button>
+      <!-- <div class="btn-container_grid">
         <button class="btn btn-up">UP</button>
         <button class="btn btn-right">Right</button>
+        <button class="btn btn-remove">HideButton</button>
         <button class="btn btn-down">Down</button>
         <button class="btn btn-left">Left</button>
       </div> -->

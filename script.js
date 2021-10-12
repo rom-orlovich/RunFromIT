@@ -11,12 +11,20 @@ const btnTopCon = document.querySelector(".btn-container");
 const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
 const btnPasue = document.querySelector(".btn-pause");
-// const joystic = document.querySelector(".btn-container_grid");
+const btnShow = document.querySelector(".btn-show");
+
 const timerSW = document.querySelector(".timer");
 const activeState = document.querySelector(".Bonus_State");
 const timerBonus = document.querySelector(".timerBonus");
 const br = document.querySelectorAll(".Active-Bonus br");
+const htmlTextJoyStick = `<div class="btn-container_grid">
+<button class="btn btn-up">UP</button>
+<button class="btn btn-right">Right</button><button class="btn btn-remove">↔</button>
+<button class="btn btn-down">Down</button><button class="btn btn-left">Left</button>
+</div>`;
 
+let joystick;
+let HideButton;
 //variables
 
 const box1Speed = 10;
@@ -139,13 +147,6 @@ function calMarginHeight() {
   return con.offsetHeight - box1.offsetHeight;
 }
 
-//remove addEvent
-
-function removeAddEvent() {
-  document.addEventListener("keydown", move);
-  // joystic.addEventListener("mousedown", moveJoy);
-}
-
 //random a number
 function mathRandom(min, max) {
   return Math.trunc(min + Math.random() * (max - min));
@@ -266,34 +267,34 @@ function move(e) {
 
   itemPlay();
 }
-//joystic play in smartphone
-// function moveJoy(e) {
-//   e.preventDefault();
-//   if (exitFunction()) return;
-//   const btn = e.target;
-//   if (!btn.classList.contains("btn")) return;
-//   if (btn.classList.contains("btn-right"))
-//     if (box1RL < calMarginWidth() - speedBoxM + 5)
-//       box1.style.transform = `translate(${(box1RL +=
-//         speedBoxM)}px, ${box1TD}px) `;
+// joystick play in smartphone
+function moveJoy(e) {
+  e.preventDefault();
+  if (exitFunction()) return;
+  const btn = e.target;
+  if (!btn.classList.contains("btn")) return;
+  if (btn.classList.contains("btn-right"))
+    if (box1RL < calMarginWidth() - speedBoxM + 5)
+      box1.style.transform = `translate(${(box1RL +=
+        speedBoxM)}px, ${box1TD}px) `;
 
-//   if (btn.classList.contains("btn-left"))
-//     if (box1RL > speedBoxM - 5)
-//       box1.style.transform = `translate(${(box1RL -=
-//         speedBoxM)}px, ${box1TD}px) `;
+  if (btn.classList.contains("btn-left"))
+    if (box1RL > speedBoxM - 5)
+      box1.style.transform = `translate(${(box1RL -=
+        speedBoxM)}px, ${box1TD}px) `;
 
-//   if (btn.classList.contains("btn-up"))
-//     if (box1TD > speedBoxM - 5)
-//       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
-//         speedBoxM)}px) `;
+  if (btn.classList.contains("btn-up"))
+    if (box1TD > speedBoxM - 5)
+      box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
+        speedBoxM)}px) `;
 
-//   if (btn.classList.contains("btn-down"))
-//     if (box1TD < calMarginHeight() - speedBoxM + 5)
-//       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
-//         speedBoxM)}px) `;
+  if (btn.classList.contains("btn-down"))
+    if (box1TD < calMarginHeight() - speedBoxM + 5)
+      box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
+        speedBoxM)}px) `;
 
-//   itemPlay();
-// }
+  itemPlay();
+}
 
 function touchEnd(e) {
   e.preventDefault();
@@ -452,7 +453,6 @@ function pauseButton(e) {
 function endGame() {
   clearInterval(interBox2);
   alert("gameOVER!");
-
   tfPauseGame = true;
 }
 
@@ -463,18 +463,32 @@ function play() {
   item.classList.remove("hidden");
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
-
-  // joystic.addEventListener("mousedown", moveJoy);
-
   timerRun();
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
   tfReset = false;
   if (window.screen.width < screenWidth) {
-    // joystic.classList.remove("hidden_Opc");
     box1.addEventListener("touchend", touchEnd);
     box1.classList.add("box_transition");
   } else desktopMode("none", "1rem");
+}
+
+function openJoystick() {
+  btnShow.insertAdjacentHTML("afterend", htmlTextJoyStick);
+  btnShow.classList.add("hidden");
+  joystick = document.querySelector(".btn-container_grid");
+  HideButton = document.querySelector(".btn-remove");
+  HideButton.addEventListener("click", HideButtons);
+  joystick.classList.remove("hidden");
+  joystick.classList.remove("hidden_Opc");
+  joystick.addEventListener("mousedown", moveJoy);
+}
+
+function HideButtons() {
+  joystick.classList.add("hidden");
+  joystick.classList.add("hidden_Opc");
+  joystick.removeEventListener("mousedown", moveJoy);
+  btnShow.classList.remove("hidden");
 }
 
 //reset the game
@@ -515,13 +529,10 @@ function reset() {
   item.textContent = `+${pointAdd}P`;
   timerSW.textContent = ` ${min}:${sec}`;
   activeState.textContent = `Off`;
-
-  // joystic.classList.add("remove_btn");
-  // joystic.classList.add("hidden_Opc");
   box2.classList.add("hidden");
   item.classList.add("hidden");
   box1.classList.remove("box_transition");
-  removeAddEvent();
+  document.addEventListener("keydown", move);
   clearBonusTimer();
   clearInterval(interBox2);
   changeColor();
@@ -533,6 +544,7 @@ btnStart.addEventListener("click", play);
 btnReset.addEventListener("click", reset);
 document.addEventListener("keydown", pauseKey);
 btnPasue.addEventListener("click", pauseButton);
+btnShow.addEventListener("click", openJoystick);
 //checking:
 //   console.log(
 //     "cube1:",
