@@ -32,7 +32,7 @@ const box2Speed = 1;
 const box1SpeedMobile = 40;
 const interTimeChange = 20;
 const ChangeDir = 120;
-const bonusTimeEnd = 20000;
+const bonusTimeEnd = 15000;
 const inters = null;
 const screenWidth = 1200;
 const bonusTimeAding = 7;
@@ -427,7 +427,9 @@ function bonus() {
 
   const randomBonus = mathRandom(1, 3);
   if (randomBonus === 1) {
-    pointAdd = stageLevel + 1;
+    if (stageLevel <= 4) {
+      pointAdd = stageLevel + 1;
+    }
     item.textContent = `+${pointAdd}P`;
     resetBonusTerms();
   } else if (randomBonus === 2) {
