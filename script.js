@@ -31,7 +31,7 @@ const box1Speed = 10;
 const box2Speed = 1;
 const box1SpeedMobile = 40;
 const interTimeChange = 20;
-const ChangeDir = 100;
+const ChangeDir = 120;
 const bonusTimeEnd = 20000;
 const inters = null;
 const screenWidth = 1200;
@@ -78,6 +78,7 @@ let bonusInvisiable = false;
 let bonusEx = false;
 let resetActive = false;
 let tfPlayGame = false;
+let speedBounus = false;
 let tfReset;
 let numQ;
 let sec;
@@ -117,6 +118,11 @@ function exitFunction() {
 //change diraction
 function changeDir(n) {
   return checkDOU ? n : -n;
+}
+//play audio function;
+function audioPlay(src) {
+  let audio = new Audio("./audio/" + src);
+  audio.play();
 }
 
 //calculate the postion of the borders relative to the current pos
@@ -233,6 +239,7 @@ function box2Run() {
 
   if (tfEndGame) return endGame();
   countRound++;
+
   box2W = box2.getBoundingClientRect().width;
   box2H = box2.getBoundingClientRect().height;
   if (box2Y < 0) checkDOU = !checkDOU;
@@ -246,11 +253,12 @@ function box2Run() {
 
   if (countRound === whenChangeDir) {
     countRound = 0;
-    numQ = mathRandom(1, 4);
+    numQ = mathRandom(1, 6);
   }
-  if (numQ === 1) box2X += changeDir(speedBox2);
-  else if (numQ === 2) box2Y += changeDir(speedBox2);
-  else if (numQ === 3) {
+  console.log("ANYTIME", speedBox2);
+  if (numQ === 1 || numQ === 2) box2X += changeDir(speedBox2);
+  else if (numQ === 3 || numQ === 4) box2Y += changeDir(speedBox2);
+  else if (numQ === 5) {
     box2X += changeDir(speedBox2);
     box2Y += changeDir(speedBox2);
   } else box2Y += changeDir(speedBox2);
@@ -363,13 +371,11 @@ function touch(e) {
   e.preventDefault();
   if (exitFunction()) return;
   let el = e.touches[0];
-  console.log(el);
+
   let x = el.pageX;
   let y = el.pageY;
   let posX = x - conX - el.radiusX * 0.9;
   let posY = y - cony - el.radiusY * 0.9;
-  console.log("x:", x, "y:", y);
-  console.log("posX", posX, "posY ", posY);
 
   box1RL = checkPos(boxW, posX, conW);
   box1TD = checkPos(boxH, posY, conH);
@@ -394,7 +400,7 @@ function itemPlay() {
   if (check(box1RL, box1TD, itemX, itemY)) {
     itemW = item.getBoundingClientRect().width;
     itemH = item.getBoundingClientRect().height;
-    console.log("itemW", itemW, "itemH", itemH);
+    audioPlay("mixkit-game-ball-tap-2073.wav");
     itemChangePos();
     scorePoints += pointAdd;
     counterStage += pointAdd;
@@ -404,6 +410,7 @@ function itemPlay() {
   }
 
   if (!bonusEx && countBonusTime > 1 && scorePoints % bonusTimeAding === 0) {
+    item.classList.add("item_bonus");
     bonus();
   }
 }
@@ -416,25 +423,33 @@ function resetBonusTerms() {
 
 // give the player bonus if he eat the item by random a number 1-2(Invisiable or number of points )
 function bonus() {
-  item.classList.add("item_bonus");
+  audioPlay("mixkit-extra-bonus-in-a-video-game-2045.wav");
+
   const randomBonus = mathRandom(1, 3);
   if (randomBonus === 1) {
     pointAdd = stageLevel + 1;
     item.textContent = `+${pointAdd}P`;
     resetBonusTerms();
   } else if (randomBonus === 2) {
-    pointAdd = 1;
     item.textContent = `💫: O`;
     setTimeout(() => (item.textContent = `+${pointAdd}P`), 2000);
     box1.style.opacity = "0.6";
     resetBonusTerms();
     bonusInvisiable = true;
+  } else if (randomBonus === 3) {
+    newSpeedBox2 = speedBox2;
+    speedBox2 = speedBox2 / stageLevel;
+    speedBounus = true;
+    resetBonusTerms();
   }
 
   activeState.textContent = `${
-    randomBonus === 1 ? "+" + pointAdd + "p" : "Invisiable"
-  } 
-`;
+    randomBonus === 1
+      ? "+" + pointAdd + "p"
+      : randomBonus === 2
+      ? "Invisiable"
+      : " Box2 speed is slower" + stageLevel
+  } `;
 
   callBonusT();
 
@@ -444,6 +459,8 @@ function bonus() {
       countBonusTime = 0;
       pointAdd = 1;
       bonusInvisiable = false;
+      speedBounus = false;
+      speedBox2 = stageLevel + 1;
       bonusEx = !bonusEx;
       item.classList.remove("item_bonus");
       item.textContent = `+${1}P`;
@@ -475,8 +492,9 @@ function clearBonusTimer() {
 //change the stage of the player after 10 points
 function changeStage() {
   if (counterStage >= 10) {
+    audioPlay("level-completed.mp3");
     stageLevel++;
-    speedBox2 += 1;
+    if (!speedBounus && stageLevel % 2 !== 0) speedBox2 += 1;
     stage.textContent = `Stage  ${stageLevel}`;
     counterStage = 0;
   }
@@ -532,6 +550,7 @@ function pauseButton(e) {
 
 //end game
 function endGame() {
+  audioPlay("Disappoint-fail-timpani-crash-sound-effect.mp3");
   clearInterval(interBox2);
   alert("gameOVER!");
   tfPauseGame = true;
@@ -540,7 +559,7 @@ function endGame() {
 //start the game
 function play() {
   reset();
-
+  audioPlay("success-sound-effect.mp3");
   box2.classList.remove("hidden");
   item.classList.remove("hidden");
   interBox2 = setInterval(box2Run, interTime);
