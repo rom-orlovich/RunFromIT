@@ -427,7 +427,7 @@ function bonus() {
 
   const randomBonus = mathRandom(1, 3);
   if (randomBonus === 1) {
-    if (stageLevel <= 4) {
+    if (stageLevel < 4) {
       pointAdd = stageLevel + 1;
     }
     item.textContent = `+${pointAdd}P`;
