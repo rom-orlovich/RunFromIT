@@ -630,6 +630,7 @@ function reset() {
   btnPasue.textContent = "Pasue Game";
   box2.classList.add("hidden");
   item.classList.add("hidden");
+  item.classList.remove("item_bonus");
   box1.classList.remove("box_transition");
   document.addEventListener("keydown", move);
   clearBonusTimer();
