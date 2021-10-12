@@ -440,9 +440,7 @@ function bonus() {
 
   const randomBonus = mathRandom(1, 3);
   if (randomBonus === 1) {
-    if (stageLevel < 4) {
-      pointAdd = stageLevel + 1;
-    }
+    stageLevel < 5 ? (pointAdd = stageLevel + 1) : (pointAdd = 5);
     item.textContent = `+${pointAdd}P`;
     resetBonusTerms();
   } else if (randomBonus === 2) {
