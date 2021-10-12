@@ -555,11 +555,11 @@ function pauseButton(e) {
   if (e.target.classList.contains("btn-pause")) {
     tfPauseGame = !tfPauseGame;
     if (!tfEndGame && tfPlayGame) {
-      e.target.textContent = `${e.target.dataset.start} Game`;
       e.target.dataset.start =
         e.target.dataset.start === "Pause"
           ? "Resume"
           : e.target.dataset.start === "Resume" && "Pause";
+      e.target.textContent = `${e.target.dataset.start} Game`;
     }
   }
 }
@@ -631,7 +631,7 @@ function reset() {
   timerSW.textContent = ` ${min}:${sec}`;
   activeState.textContent = `Off`;
   btnPasue.textContent = "Pasue Game";
-btnPasue.dataset.start='Pause';
+  btnPasue.dataset.start = "Pause";
   box2.classList.add("hidden");
   item.classList.add("hidden");
   item.classList.remove("item_bonus");
