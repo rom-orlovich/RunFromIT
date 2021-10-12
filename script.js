@@ -439,6 +439,7 @@ function bonus() {
   audioPlay("mixkit-extra-bonus-in-a-video-game-2045.wav");
 
   const randomBonus = mathRandom(1, 4);
+
   if (randomBonus === 1) {
     stageLevel < 5 ? (pointAdd = stageLevel + 1) : (pointAdd = 3);
     item.textContent = `+${pointAdd}P`;
@@ -508,10 +509,11 @@ function changeStage() {
     audioPlay("level-completed.mp3");
     stageLevel++;
     if (!speedBounus && stageLevel % 2 !== 0) speedBox2 += 1;
+
     stage.textContent = `Stage  ${stageLevel}`;
     counterStage = 0;
   }
-  if (stageLevel % 50 === 0) {
+  if (stageLevel % 10 === 0) {
     body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
       0,
       255
