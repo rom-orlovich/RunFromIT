@@ -31,7 +31,7 @@ const box1Speed = 10;
 const box2Speed = 1;
 const box1SpeedMobile = 40;
 const interTimeChange = 20;
-const ChangeDir = 120;
+const ChangeDir = 80;
 const bonusTimeEnd = 10000;
 const inters = null;
 const screenWidth = 1200;
@@ -640,6 +640,9 @@ function reset() {
 }
 
 //game actions
+document.addEventListener("DOMContentLoaded", function () {
+  alert(" ©Copyright 2021 by Rom Orlovich .All Rights Reserved ");
+});
 box1.addEventListener("touchmove", touch);
 btnStart.addEventListener("click", play);
 document.addEventListener("keydown", pauseKey);
