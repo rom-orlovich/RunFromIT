@@ -11,7 +11,7 @@ const btnTopCon = document.querySelector(".btn-container");
 const btnStart = document.querySelector(".btn-str");
 const btnReset = document.querySelector(".btn-reset");
 const btnPasue = document.querySelector(".btn-pause");
-const joystic = document.querySelector(".btn-container_grid");
+// const joystic = document.querySelector(".btn-container_grid");
 const timerSW = document.querySelector(".timer");
 const activeState = document.querySelector(".Bonus_State");
 const timerBonus = document.querySelector(".timerBonus");
@@ -143,7 +143,7 @@ function calMarginHeight() {
 
 function removeAddEvent() {
   document.addEventListener("keydown", move);
-  joystic.addEventListener("mousedown", moveJoy);
+  // joystic.addEventListener("mousedown", moveJoy);
 }
 
 //random a number
@@ -267,33 +267,33 @@ function move(e) {
   itemPlay();
 }
 //joystic play in smartphone
-function moveJoy(e) {
-  e.preventDefault();
-  if (exitFunction()) return;
-  const btn = e.target;
-  if (!btn.classList.contains("btn")) return;
-  if (btn.classList.contains("btn-right"))
-    if (box1RL < calMarginWidth() - speedBoxM + 5)
-      box1.style.transform = `translate(${(box1RL +=
-        speedBoxM)}px, ${box1TD}px) `;
+// function moveJoy(e) {
+//   e.preventDefault();
+//   if (exitFunction()) return;
+//   const btn = e.target;
+//   if (!btn.classList.contains("btn")) return;
+//   if (btn.classList.contains("btn-right"))
+//     if (box1RL < calMarginWidth() - speedBoxM + 5)
+//       box1.style.transform = `translate(${(box1RL +=
+//         speedBoxM)}px, ${box1TD}px) `;
 
-  if (btn.classList.contains("btn-left"))
-    if (box1RL > speedBoxM - 5)
-      box1.style.transform = `translate(${(box1RL -=
-        speedBoxM)}px, ${box1TD}px) `;
+//   if (btn.classList.contains("btn-left"))
+//     if (box1RL > speedBoxM - 5)
+//       box1.style.transform = `translate(${(box1RL -=
+//         speedBoxM)}px, ${box1TD}px) `;
 
-  if (btn.classList.contains("btn-up"))
-    if (box1TD > speedBoxM - 5)
-      box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
-        speedBoxM)}px) `;
+//   if (btn.classList.contains("btn-up"))
+//     if (box1TD > speedBoxM - 5)
+//       box1.style.transform = `translate(${box1RL}px, ${(box1TD -=
+//         speedBoxM)}px) `;
 
-  if (btn.classList.contains("btn-down"))
-    if (box1TD < calMarginHeight() - speedBoxM + 5)
-      box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
-        speedBoxM)}px) `;
+//   if (btn.classList.contains("btn-down"))
+//     if (box1TD < calMarginHeight() - speedBoxM + 5)
+//       box1.style.transform = `translate(${box1RL}px, ${(box1TD +=
+//         speedBoxM)}px) `;
 
-  itemPlay();
-}
+//   itemPlay();
+// }
 
 function touchEnd(e) {
   e.preventDefault();
@@ -464,14 +464,14 @@ function play() {
   interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
 
-  joystic.addEventListener("mousedown", moveJoy);
+  // joystic.addEventListener("mousedown", moveJoy);
 
   timerRun();
   timer = setInterval(timerRun, 1000);
   clearBonusTimer();
   tfReset = false;
   if (window.screen.width < screenWidth) {
-    joystic.classList.remove("hidden_Opc");
+    // joystic.classList.remove("hidden_Opc");
     box1.addEventListener("touchend", touchEnd);
     box1.classList.add("box_transition");
   } else desktopMode("none", "1rem");
@@ -516,8 +516,8 @@ function reset() {
   timerSW.textContent = ` ${min}:${sec}`;
   activeState.textContent = `Off`;
 
-  joystic.classList.add("remove_btn");
-  joystic.classList.add("hidden_Opc");
+  // joystic.classList.add("remove_btn");
+  // joystic.classList.add("hidden_Opc");
   box2.classList.add("hidden");
   item.classList.add("hidden");
   box1.classList.remove("box_transition");
