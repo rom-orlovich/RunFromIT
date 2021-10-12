@@ -251,12 +251,12 @@ function box2Run() {
 
   box2W = box2.getBoundingClientRect().width;
   box2H = box2.getBoundingClientRect().height;
-  if (box2Y < 0) checkDOU = !checkDOU;
-  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2)
+  if (box2Y < 1) checkDOU = !checkDOU;
+  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2 - 1)
     checkDOU = !checkDOU;
-  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2)
+  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2 - 1)
     checkDOU = !checkDOU;
-  else if (box2X < 0) checkDOU = !checkDOU;
+  else if (box2X < 1) checkDOU = !checkDOU;
 
   //change the diraction according to the random num which decides the dircation;
 
@@ -508,13 +508,13 @@ function changeStage() {
   if (counterStage >= 10) {
     audioPlay("level-completed.mp3");
     stageLevel++;
-    if (!speedBonus && stageLevel % 2 !== 0) speedBox2 += 1;
+    if (!speedBonus && stageLevel % 3 === 0) speedBox2 += 1;
 
     stage.textContent = `Stage  ${stageLevel}`;
     counterStage = 0;
   }
   if (stageLevel > 5) whenChangeDir = 70;
-  if (scorePoints % 100 === 0) {
+  if (scorePoints % 100 >= 0 || scorePoints % 100 < 2) {
     body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
       0,
       255
