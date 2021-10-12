@@ -251,12 +251,12 @@ function box2Run() {
 
   box2W = box2.getBoundingClientRect().width;
   box2H = box2.getBoundingClientRect().height;
-  if (box2Y < 1) checkDOU = !checkDOU;
-  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2 - 1)
+  if (box2Y < 2) checkDOU = !checkDOU;
+  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2 * 1.1)
     checkDOU = !checkDOU;
-  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2 - 1)
+  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2 * 1.1)
     checkDOU = !checkDOU;
-  else if (box2X < 1) checkDOU = !checkDOU;
+  else if (box2X < 2) checkDOU = !checkDOU;
 
   //change the diraction according to the random num which decides the dircation;
 
