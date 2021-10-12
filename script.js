@@ -39,6 +39,9 @@ const bonusTimeAding = 7;
 //touch setting variables
 const boxW = box1.getBoundingClientRect().width;
 const boxH = box1.getBoundingClientRect().height;
+let itemW;
+let itemH;
+
 const conW = con.getBoundingClientRect().width;
 const conH = con.getBoundingClientRect().height;
 const conX = con.getBoundingClientRect().left;
@@ -296,7 +299,7 @@ function moveJoy(e) {
 
   itemPlay();
 }
-
+//slide the box1 with touchmove
 function touchEnd(e) {
   e.preventDefault();
   if (exitFunction()) return;
@@ -326,9 +329,10 @@ ${box1TD}px)`;
   }
   itemPlay();
 }
-function checkPos(w, pos, B) {
+//check if the postion of item is vaild
+function checkPos(itemS, pos, conS) {
   if (pos <= 0) return 0;
-  else if (pos > B - w) return B - w;
+  else if (pos > conS - itemS) return conS - itemS;
   else return pos;
 }
 
@@ -336,12 +340,20 @@ function checkPos(w, pos, B) {
 function itemChangePos() {
   itemX = reletiveToBox(calMarginWidth() / 2);
   itemY = reletiveToBox(calMarginHeight() / 2);
-  item.style.transform = `translate(${itemX}px, ${itemY}px) `;
+
+  item.style.transform = `translate(${checkPos(
+    itemW,
+    itemX,
+    conW
+  )}px, ${checkPos(itemH, itemY, conH)}px) `;
 }
 
 //item-playing
 function itemPlay() {
   if (check(box1RL, box1TD, itemX, itemY)) {
+    itemW = item.getBoundingClientRect().width;
+    itemH = item.getBoundingClientRect().height;
+    console.log("itemW", itemW, "itemH", itemH);
     itemChangePos();
     scorePoints += pointAdd;
     counterStage += pointAdd;
@@ -365,7 +377,6 @@ function resetBonusTerms() {
 function bonus() {
   item.classList.add("item_bonus");
   const randomBonus = mathRandom(1, 3);
-
   if (randomBonus === 1) {
     pointAdd = stageLevel + 1;
     item.textContent = `+${pointAdd}P`;
@@ -373,7 +384,7 @@ function bonus() {
   } else if (randomBonus === 2) {
     pointAdd = 1;
     item.textContent = `💫: O`;
-    setTimeout(() => (item.textContent = `+${pointAdd}P`), 3000);
+    setTimeout(() => (item.textContent = `+${pointAdd}P`), 2000);
     box1.style.opacity = "0.6";
     resetBonusTerms();
     bonusInvisiable = true;
@@ -397,8 +408,8 @@ function bonus() {
       item.textContent = `+${1}P`;
       box1.style.opacity = "1";
       activeState.textContent = `Off`;
-      clearTimeout(timeOut);
       clearBonusTimer();
+      clearTimeout(timeOut);
     }
   }, bonusTimeEnd);
 }
