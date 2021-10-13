@@ -511,7 +511,7 @@ function changeStage() {
   if (counterStage >= 10) {
     audioPlay("level-completed.mp3");
     stageLevel++;
-    if (!speedBonus && stageLevel % 2 === 0) speedBox2 += 0.5;
+    if (!speedBonus && stageLevel % 2 === 0 && speedBox2 < 8) speedBox2 += 1;
 
     stage.textContent = `Stage  ${stageLevel}`;
     counterStage = 0;
