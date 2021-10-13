@@ -31,7 +31,7 @@ const box1Speed = 10;
 const box2Speed = 1;
 const box1SpeedMobile = 40;
 const interTimeChange = 20;
-const ChangeDir = 80;
+const ChangeDir = 100;
 const bonusTimeEnd = 10000;
 const inters = null;
 const screenWidth = 1200;
@@ -582,7 +582,7 @@ function endGame() {
 //start the game
 function play() {
   reset();
-  console.log(bonusEx);
+
   audioPlay("success-sound-effect.mp3");
   box2.classList.remove("hidden");
   item.classList.remove("hidden");
