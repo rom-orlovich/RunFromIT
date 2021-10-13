@@ -30,7 +30,7 @@ let HideButton;
 const box1Speed = 10;
 const box2Speed = 1;
 const box1SpeedMobile = 40;
-const interTimeChange = 20;
+const interTimeChange = 30;
 const ChangeDir = 100;
 const bonusTimeEnd = 10000;
 const inters = null;
@@ -248,13 +248,12 @@ function box2Run() {
 
   if (tfEndGame) return endGame();
   countRound++;
-
-  box2W = box2.getBoundingClientRect().width;
-  box2H = box2.getBoundingClientRect().height;
+  // box2W = box2.getBoundingClientRect().width;
+  // box2H = box2.getBoundingClientRect().height;
   if (box2Y < 2) checkDOU = !checkDOU;
-  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2)
+  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2 - 2)
     checkDOU = !checkDOU;
-  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2)
+  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2 - 2)
     checkDOU = !checkDOU;
   else if (box2X < 2) checkDOU = !checkDOU;
 
@@ -268,12 +267,11 @@ function box2Run() {
   if (numQ === 1 || numQ === 2) box2X += changeDir(speedBox2);
   else if (numQ === 3 || numQ === 4) box2Y += changeDir(speedBox2);
   else if (
-    numQ === 5
-    //  &&
-    // box2X > 120 &&
-    // box2x < 175 &&
-    // box2y > 120 &&
-    // box2y < 175
+    numQ === 5 &&
+    box2X > 120 &&
+    box2x < 175 &&
+    box2y > 120 &&
+    box2y < 175
   ) {
     box2X += changeDir(speedBox2);
     box2Y += changeDir(speedBox2);
@@ -585,9 +583,9 @@ function play() {
 
   audioPlay("success-sound-effect.mp3");
   box2.classList.remove("hidden");
-  item.classList.remove("hidden");
   interBox2 = setInterval(box2Run, interTime);
 
+  item.classList.remove("hidden");
   document.addEventListener("keydown", move);
   timerRun();
   timer = setInterval(timerRun, 1000);
