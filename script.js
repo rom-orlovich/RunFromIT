@@ -30,8 +30,8 @@ let HideButton;
 const box1Speed = 10;
 const box2Speed = 1;
 const box1SpeedMobile = 40;
-const interTimeChange = 30;
-const ChangeDir = 100;
+const interTimeChange = 20;
+const ChangeDir = 80;
 const bonusTimeEnd = 10000;
 const inters = null;
 const screenWidth = 1200;
@@ -248,12 +248,13 @@ function box2Run() {
 
   if (tfEndGame) return endGame();
   countRound++;
-  // box2W = box2.getBoundingClientRect().width;
-  // box2H = box2.getBoundingClientRect().height;
+
+  box2W = box2.getBoundingClientRect().width;
+  box2H = box2.getBoundingClientRect().height;
   if (box2Y < 2) checkDOU = !checkDOU;
-  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2 - 2)
+  else if (box2Y > con.offsetHeight - box2.offsetHeight - speedBox2 * 1.1)
     checkDOU = !checkDOU;
-  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2 - 2)
+  else if (box2X > con.offsetWidth - box2.offsetWidth - speedBox2 * 1.1)
     checkDOU = !checkDOU;
   else if (box2X < 2) checkDOU = !checkDOU;
 
@@ -266,18 +267,16 @@ function box2Run() {
 
   if (numQ === 1 || numQ === 2) box2X += changeDir(speedBox2);
   else if (numQ === 3 || numQ === 4) box2Y += changeDir(speedBox2);
-  else if (
-    numQ === 5 &&
-    box2X > 120 &&
-    box2x < 175 &&
-    box2y > 120 &&
-    box2y < 175
-  ) {
+  else if (numQ === 5) {
     box2X += changeDir(speedBox2);
     box2Y += changeDir(speedBox2);
-  }
+  } else box2Y += changeDir(speedBox2);
 
-  box2.style.transform = `translate(${box2X}px, ${box2Y}px) `;
+  box2.style.transform = `translate(${checkPos(
+    box2W,
+    box2X,
+    conW
+  )}px, ${checkPos(box2H, box2Y, conH)}px) `;
 }
 
 //move the the active player by keyboard
@@ -509,17 +508,13 @@ function changeStage() {
   if (counterStage >= 10) {
     audioPlay("level-completed.mp3");
     stageLevel++;
-    if (!speedBonus && stageLevel % 2 === 0 && speedBox2 < 8) speedBox2 += 1;
+    if (!speedBonus && stageLevel % 2 === 0) speedBox2 += 1;
 
     stage.textContent = `Stage  ${stageLevel}`;
     counterStage = 0;
   }
 
-  if (
-    stageLevel % 10 === 0 &&
-    scorePoints % 100 >= 0 &&
-    scorePoints % 100 <= 1
-  ) {
+  if (scorePoints % 100 >= 0 && scorePoints % 100 < 2 && scorePoints >= 100) {
     body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
       0,
       255
@@ -580,16 +575,13 @@ function endGame() {
 //start the game
 function play() {
   reset();
-
   audioPlay("success-sound-effect.mp3");
   box2.classList.remove("hidden");
-  interBox2 = setInterval(box2Run, interTime);
-
   item.classList.remove("hidden");
+  interBox2 = setInterval(box2Run, interTime);
   document.addEventListener("keydown", move);
   timerRun();
   timer = setInterval(timerRun, 1000);
-
   clearBonusTimer();
   tfReset = false;
   tfPlayGame = true;
