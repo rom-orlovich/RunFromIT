@@ -508,13 +508,13 @@ function changeStage() {
   if (counterStage >= 10) {
     audioPlay("level-completed.mp3");
     stageLevel++;
-    if (!speedBonus && stageLevel % 3 === 0) speedBox2 += 1;
+    if (!speedBonus && stageLevel % 4 === 0) speedBox2 += 0.5;
 
     stage.textContent = `Stage  ${stageLevel}`;
     counterStage = 0;
   }
   if (stageLevel > 5) whenChangeDir = 70;
-  if ((scorePoints % 100 >= 0 || scorePoints % 100 < 2) && scorePoints >= 100) {
+  if ((scorePoints % 100 >= 0 && scorePoints % 100 < 2) && scorePoints >= 100) {
     body.style.backgroundColor = `rgba(${mathRandom(0, 255)},${mathRandom(
       0,
       255
