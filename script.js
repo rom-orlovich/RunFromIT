@@ -22,7 +22,7 @@ const htmlTextJoyStick = `<div class="btn-container_grid">
 <button class="btn btn-right">Right</button><button class="btn btn-remove">↔</button>
 <button class="btn btn-down">Down</button><button class="btn btn-left">Left</button>
 </div>`;
-
+// console.log("");
 let joystick;
 let HideButton;
 //variables
